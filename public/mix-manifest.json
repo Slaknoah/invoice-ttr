@@ -1,0 +1,16 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/css/app.css": "/css/app.css",
+    "/dashboardstatistics.js": "/dashboardstatistics.js",
+    "/forgotpassword.js": "/forgotpassword.js",
+    "/invoicecreate.js": "/invoicecreate.js",
+    "/invoicelist.js": "/invoicelist.js",
+    "/login.js": "/login.js",
+    "/logout.js": "/logout.js",
+    "/notfound.js": "/notfound.js",
+    "/profile.js": "/profile.js",
+    "/register.js": "/register.js",
+    "/resetpassword.js": "/resetpassword.js",
+    "/touristslist.js": "/touristslist.js",
+    "/vendors~resetpassword~touristslist.js": "/vendors~resetpassword~touristslist.js"
+}

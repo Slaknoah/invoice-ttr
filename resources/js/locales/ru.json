@@ -1,0 +1,18 @@
+{
+    "nav": {
+        "statistics": "Статистика",
+        "orders": "Заявки",
+        "invoice": "Инвойс",
+        "tourists": "Туристы"
+    },
+    "tourists": {
+        "title": "Туристы",
+        "table_name": "ФИО",
+        "table_phone": "Телефон",
+        "table_email": "E-mail",
+        "table_note": "Пометка"
+    },
+    "dashboard": {
+        "title": "Dashboard"
+    }
+}

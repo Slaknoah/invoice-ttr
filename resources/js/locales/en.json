@@ -1,0 +1,103 @@
+{
+    "nav": {
+        "statistics": "Statistics",
+        "orders": "Orders",
+        "invoice": "Invoice",
+        "tourists": "Tourists",
+        "hotels": "Hotels",
+        "services": "Services",
+        "login": "Login",
+        "register": "Register",
+        "users": "Users",
+        "profile": "Profile"
+    },
+    "profile": {
+        "title": "Profile",
+        "change_password": "Change password",
+        "name": "Name",
+        "email": "Email",
+        "phone": "Telephone",
+        "change_avatar": "Change profile picture",
+        "save_btn": "Save profile",
+        "delete_profile": "Delete account",
+        "current_password": "Current password",
+        "new_password": "New password",
+        "repeat_password": "Confirm new password",
+        "save_pass_btn": "Save"
+    },
+    "tourists": {
+        "title": "Tourists",
+        "name": "Name",
+        "phone": "Telephone",
+        "email": "E-mail",
+        "note": "Note",
+        "form_title": {
+            "add": "Add tourist",
+            "edit": "Edit tourist"
+        }
+    },
+    "hotels": {
+        "title": "Hotels",
+        "name": "Hotel name",
+        "accommodations": "Accommodations",
+        "accommodation_input": "Add accommodation",
+        "accommodation_edit": "Edit accommodation",
+        "form_title": {
+            "add": "Add hotel",
+            "edit": "Edit hotel"
+        }
+    },
+    "services": {
+        "title": "Services",
+        "name": "Service",
+        "form_title": {
+            "add": "Add service",
+            "edit": "Edit service"
+        }
+    },
+    "dashboard": {
+        "title": "Dashboard"
+    },
+    "auth": {
+        "login_title": "Sign in",
+        "email": "E-mail",
+        "name": "Username",
+        "pass": "Password",
+        "login_btn": "Login",
+        "forgot_pass_trigger": "Forgot Password?",
+        "register_title": "Registration",
+        "register_btn": "Register"
+    },
+    "general": {
+        "close_modal": "Close",
+        "add_item_btn": "Add",
+        "update_item_btn": "Update",
+        "choose_file": "Choose file",
+        "delete_btn": "Delete",
+        "edit_btn": "Edit"
+    },
+    "responses": {
+        "unauthorized": "You are unauthorized to access this resource."
+    },
+    "users": {
+        "title": "Users",
+        "name": "Username",
+        "email": "Email",   
+        "telephone": "Telephone",
+        "registered": "Registered",
+        "last_updated": "Last updated",
+        "verified": "Verified",
+        "password": "Password",
+        "password_confirmation": "Confirm password",
+        "role": "Role",
+        "default_role": "Default",
+        "phone": "Phone number",
+        "avatar": "Avatar",
+        "id": "ID",
+        "confirm_delete": "Are you sure you want to delete this User? Action cant be reversed.",
+        "form_title": {
+            "add": "Add user",
+            "edit": "Edit user"
+        }
+    }
+}
