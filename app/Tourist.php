@@ -8,7 +8,7 @@ class Tourist extends Model
 {
     protected $fillable = ['name', 'phone', 'email', 'description'];
 
-    public function invoices() {
+    public function orders() {
         return $this->hasMany('App/Invoices');
     }
 }

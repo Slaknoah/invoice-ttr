@@ -15,7 +15,7 @@ class Hotel extends Model
     	'accommodations'
     ];
 
-    public function invoices() {
+    public function orders() {
         return $this->hasMany('App/Invoices');
     }
 

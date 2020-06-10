@@ -9,8 +9,8 @@
                     <ul id="nav-mobile" class=" right hide-on-med-and-down">
                         <template v-if="isLoggedIn">
                             <navigation-item :to="{name: 'dashboard', params: { lang: $i18n.locale }}">{{ $t('nav.statistics') }}</navigation-item>
-                            <navigation-item :to="{name: 'invoices', params: { lang: $i18n.locale }}">{{ $t('nav.orders') }}</navigation-item>
-                            <navigation-item :to="{name: 'create_invoice', params: { lang: $i18n.locale }}">{{ $t('nav.invoice') }}</navigation-item>
+                            <navigation-item :to="{name: 'create_order', params: { lang: $i18n.locale }}">{{ $t('nav.create_order') }}</navigation-item>
+                            <navigation-item :to="{name: 'orders', params: { lang: $i18n.locale }}">{{ $t('nav.orders') }}</navigation-item>
                             <navigation-item :to="{name: 'tourists', params: { lang: $i18n.locale }}">{{ $t('nav.tourists') }}</navigation-item>
                             <navigation-item :to="{name: 'hotels', params: { lang: $i18n.locale }}">{{ $t('nav.hotels') }}</navigation-item>
                             <navigation-item :to="{name: 'services', params: { lang: $i18n.locale }}">{{ $t('nav.services') }}</navigation-item>

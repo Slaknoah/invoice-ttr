@@ -8,7 +8,7 @@ class Service extends Model
 {
     protected $fillable = ['name'];
 
-    public function invoices() {
+    public function orders() {
         return $this->hasMany('App/Invoices');
     }
 }

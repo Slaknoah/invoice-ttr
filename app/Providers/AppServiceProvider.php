@@ -2,10 +2,10 @@
 
 namespace App\Providers;
 
+use App\Clients;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Resources\Json\Resource;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
-        Resource::withoutWrapping();
+        JsonResource::withoutWrapping();
     }
 
     /**
@@ -27,6 +27,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(
+            'App\Contracts\Client',
+            'App\Services\Clients\TripAdvisor'
+        );
+
+        $this->app->singleton(Clients\TripAdvisor::class, function ($app) {
+            new Clients\TripAdvisor();
+        });
     }
 }

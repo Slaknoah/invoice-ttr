@@ -38,6 +38,7 @@ Route::group( ['middleware' => 'auth:api' ], function() {
         Route::apiResource('tourists', 'TouristController');
         Route::apiResource('hotels', 'HotelController');
         Route::apiResource('services', 'ServiceController');
+        Route::apiResource('orders', 'OrderController');
     });
 
 });

@@ -68,7 +68,10 @@ export default {
         },
     },
     created() {
-        this.token =  window.location.search.substring(1);
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        this.token =  urlParams.get('token');
+        this.email = urlParams.get('email');
     }
 }
 </script>

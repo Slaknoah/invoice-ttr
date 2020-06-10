@@ -59,4 +59,12 @@ class User extends Authenticatable implements MustVerifyEmail
     public function permissions() {
         return $this->role->permissions();
     }
+
+    public function clientOrder() {
+         return $this->hasOne('App\Order', 'client_id', 'id');
+    }
+
+    public function managerOrder() {
+         return $this->hasOne('App\Order', 'manager_id', 'id');
+    }
 }

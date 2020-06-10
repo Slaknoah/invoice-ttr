@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Role;
 use App\User;
 use App\Http\Controllers\Controller;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\BadResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
@@ -17,24 +19,23 @@ class AuthController extends Controller
             'username' => 'required|string|max:255',
             'password' => 'required|string',
         ]);
-
-        $http = new \GuzzleHttp\Client;
+        $http = new Client;
 
         try {
             $response = $http->post(config('services.passport.login_endpoint'), [
                 'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => config('services.passport.client_id'),
+                    'grant_type'    => 'password',
+                    'client_id'     => config('services.passport.client_id'),
                     'client_secret' => config('services.passport.client_secret'),
-                    'username' => $request->username,
-                    'password' => $request->password,
-                    'scope' => '*',
+                    'username'      => $request->username,
+                    'password'      => $request->password,
+                    'scope'         => '*',
                 ],
             ]);
 
             return json_decode((string) $response->getBody(), true);
         }
-        catch (\GuzzleHttp\Exception\BadResponseException $e) {
+        catch (BadResponseException $e) {
             if ($e->getCode() === 401)
                 abort($e->getCode(), __('auth.failed'));
             else 
@@ -47,13 +48,12 @@ class AuthController extends Controller
         $request->validate([
             'refresh_token' => 'required|string',
         ]);
-
-        $http = new \GuzzleHttp\Client;
+        $http = new Client;
 
         try {
             $response = $http->post(config('services.passport.login_endpoint'), [
                 'form_params' => [
-                    'grant_type' => 'refresh_token',
+                    'grant_type' => 'refresh_token', 
                     'refresh_token' => $request->refresh_token,
                     'client_id' => config('services.passport.client_id'),
                     'client_secret' => config('services.passport.client_secret'),
@@ -63,7 +63,7 @@ class AuthController extends Controller
 
             return json_decode((string) $response->getBody(), true);
         }
-        catch (\GuzzleHttp\Exception\BadResponseException $e) {
+        catch (BadResponseException $e) {
             if ($e->getCode() === 401)
                 abort($e->getCode(), __('auth.failed'));
             else 
@@ -75,7 +75,7 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => 'required|string|min:8',
         ]);
 
         $user =  User::create([

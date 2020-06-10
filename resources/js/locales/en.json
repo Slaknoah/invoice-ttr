@@ -2,7 +2,7 @@
     "nav": {
         "statistics": "Statistics",
         "orders": "Orders",
-        "invoice": "Invoice",
+        "create_order": "Create order",
         "tourists": "Tourists",
         "hotels": "Hotels",
         "services": "Services",
@@ -35,6 +35,10 @@
             "add": "Add tourist",
             "edit": "Edit tourist"
         }
+    },
+    "orders": {
+        "title": "Orders",
+        "create_title": "Create order"
     },
     "hotels": {
         "title": "Hotels",

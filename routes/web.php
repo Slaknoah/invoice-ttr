@@ -14,25 +14,9 @@
 // Auth::routes();
 
 // Route::get('/', function() { return view('index'); });
-Route::get('/testrapid', function() {
-    $http = new \GuzzleHttp\Client;
-    try {
-        $response = $http->get(
-            "https://tripadvisor1.p.rapidapi.com/attractions/list?lang=en_US&currency=USD&sort=recommended&lunit=km&limit=30&bookable_first=false&subcategory=36&location_id=293928",
-            [
-                'headers' => [
-                    "X-RapidAPI-Host" => "tripadvisor1.p.rapidapi.com",
-                    "X-RapidAPI-Key" => env('RAPID_API_KEY')
-                ]
-            ]
-        );
-        $body = $response->getBody();
-        dd(json_decode($body));
-    } catch (\GuzzleHttp\Exception\BadResponseException $e) {
-        dd($e);
-    };
-});
-Route::get( config('app.locale') .'/reset-password', function() {return view('index');})->name('password.reset');
+
+Route::get('/testrapid', 'LocationController@index');
+Route::get( config('app.locale') .'/reset-password', function() { return view('index');})->name('password.reset');
 Route::get( config('app.locale') . '/profile', 'Auth\VerificationApiController@verify')->name('verification.verify');
 Route::get('/{any}', function() {  return view('index');})->where('any', '.*');
 

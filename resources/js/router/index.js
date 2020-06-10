@@ -12,8 +12,8 @@ const ResetPassword = () => import(/* webpackChunkName: "resetpassword" */  "../
 const Users = () => import(/* webpackChunkName: "resetpassword" */  "../views/Users/UsersList");
 
 const DashboardStatistics = () => import(/* webpackChunkName: "dashboardstatistics" */  "../views/DashboardStatistics");
-const InvoicesList = () => import(/* webpackChunkName: "invoicelist" */  "../views/Invoices/InvoicesList");
-const InvoiceCreate = () => import(/* webpackChunkName: "invoicecreate" */  "../views/Invoices/InvoiceCreate");
+const InvoicesList = () => import(/* webpackChunkName: "invoicelist" */  "../views/Orders/OrdersList");
+const InvoiceCreate = () => import(/* webpackChunkName: "invoicecreate" */  "../views/Orders/OrdersCreate");
 const TouristsList = () => import(/* webpackChunkName: "touristslist" */  "../views/Tourists/TouristsList");
 const HotelsList = () => import(/* webpackChunkName: "touristslist" */  "../views/Hotels/HotelsList");
 const ServicesList = () => import(/* webpackChunkName: "touristslist" */  "../views/Services/ServicesList");
@@ -94,8 +94,8 @@ const localizedRoutes = [
         }
     },
     {
-        path: "invoices",
-        name: "invoices",
+        path: "orders",
+        name: "orders",
         component: InvoicesList,
         meta: {
             requiresAuth: true,
@@ -103,8 +103,8 @@ const localizedRoutes = [
         }
     },
     {
-        path: "invoices/create",
-        name: "create_invoice",
+        path: "orders/create",
+        name: "create_order",
         component: InvoiceCreate,
         meta: {
             requiresAuth: true,
