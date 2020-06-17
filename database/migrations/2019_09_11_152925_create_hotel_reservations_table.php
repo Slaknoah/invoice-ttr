@@ -15,12 +15,14 @@ class CreateHotelReservationsTable extends Migration
     {
         Schema::create('hotel_reservations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->string('date');
+            $table->integer('hotel_id');
+            $table->string('date_start')->nullable();
+            $table->string('date_end')->nullable();
             $table->decimal('price', 10, 2);
-            $table->decimal('discount', 10, 2);
+            $table->decimal('discount', 10, 2)->nullable();
             $table->string('accommodation');
-            $table->string('status');
+            $table->integer('status_id');
+            $table->integer('order_id')->nullable();
             $table->timestamps();
         });
     }

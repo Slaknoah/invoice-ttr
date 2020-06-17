@@ -27,8 +27,8 @@ class AuthController extends Controller
                     'grant_type'    => 'password',
                     'client_id'     => config('services.passport.client_id'),
                     'client_secret' => config('services.passport.client_secret'),
-                    'username'      => $request->username,
-                    'password'      => $request->password,
+                    'username'      => $request->get('username'),
+                    'password'      => $request->get('password'),
                     'scope'         => '*',
                 ],
             ]);
@@ -36,7 +36,7 @@ class AuthController extends Controller
             return json_decode((string) $response->getBody(), true);
         }
         catch (BadResponseException $e) {
-            if ($e->getCode() === 401)
+            if ($e->getCode() === 401 || $e->getCode() === 400 )
                 abort($e->getCode(), __('auth.failed'));
             else 
                 abort($e->getCode(), __('general.server_error'));

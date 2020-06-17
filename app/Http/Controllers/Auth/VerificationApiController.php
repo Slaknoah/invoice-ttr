@@ -5,7 +5,6 @@ use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 use Illuminate\Http\Request;
-use Illuminate\Auth\Events\Verified;
 
 class VerificationApiController extends Controller
 {

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\HotelReservation;
 use App\Order;
+use App\Payment;
 use App\Service;
 use App\Agent;
 use App\Hotel;
@@ -16,6 +18,10 @@ use App\Http\Resources\OrderResource;
 use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Http\Request;
 
@@ -24,37 +30,20 @@ class OrderController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return AnonymousResourceCollection
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $managers = User::where('role', 'manager')->get();
-        $providers = Provider::all('id', 'name');
-        $agents = Agent::all('id', 'name');
-        $tourists = Tourist::all('id', 'name');
-        $customers = $agents->concat($tourists)->all();
-        $hotels = Hotel::all('name', 'accommodations');
-        $hotel_statuses = HotelStatus::all('name');
-        $services = Service::all('name');
-
-        return view('invoices.invoice', compact('managers', 'providers', 'customers', 'tourists', 'hotels', 'hotel_statuses', 'services'));
+        return OrderResource::collection(
+            Order::orderBy('created_at', 'desc')->paginate(config('resources.items_per_page'))
+        );
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param OrderStoreRequest $request
+     * @return Response
      */
     public function store(OrderStoreRequest $request)
     {
@@ -63,6 +52,8 @@ class OrderController extends Controller
             'sum'               => $request->get('sum'),
             'commission'        => $request->get('commission'),
         ]);
+
+        $order->save();
 
         $client = User::findOrFail($request->get('client_id'));
         $order->client()->associate($client);
@@ -74,46 +65,70 @@ class OrderController extends Controller
         $order->provider()->associate($provider);
 
         $tourists = $request->get('tourist_ids');
-        foreach ($tourists as $tourist_id) {
-            $tourist = Tourist::findOrFail($tourist_id);
+        $order->tourists()->attach($tourists);
 
-            $order->tourists()->attach($tourist);
+        $payments = $request->get('payments');
+        foreach ($payments as $payment) {
+            if (is_array($payment)) {
+                $order->payments()->save(new Payment([
+                    'sum' => $payment['sum'],
+                    'payment_type' => $payment['payment_type'],
+                    'comment' => $payment['comment']
+                ]));
+            } elseif(is_int($payment)) {
+                $paymentObject = Payment::findOrFail($payment);
+                $order->payments()->save($paymentObject);
+            }
         }
 
+        $reservations = $request->get('hotel_reservations');
+        foreach ($reservations as $reservation) {
+            if ( is_int($reservation) ) {
+                $reservation = HotelReservation::findOrFail($reservation);
+                $order->hotelReservations()->save($reservation);
+            } elseif ( is_array($reservation) )  {
+                $date_start = $reservation['date_start'] ?? null;
+                $date_end   = $reservation['date_end']  ?? null;
+                $hotelReservation = new HotelReservation([
+                    'price'          => $reservation['price'] ?? null,
+                    'discount'       => $reservation['discount'] ?? null,
+                    'date_start'     => $date_start ? Carbon::parse($date_start) : null,
+                    'date_end'       => $date_end ? Carbon::parse($date_end) : null,
+                    'accommodation'  => $reservation['accommodation'] ?? null,
+                ]);
+
+                $hotelReservation->hotel()->associate($reservation['hotel_id']);
+                $hotelReservation->hotelStatus()->associate($reservation['status_id']);
+                $order->hotelReservations()->save($hotelReservation);
+            }
+        }
+
+        $order->save();
+
         return response()->json([
-            'message' => $order,
-            'tourists' => $order->tourists()
+            'message' => __('responses.order.stored'),
+            'response' => new OrderResource($order),
         ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Order $order
+     * @return OrderResource
      */
-    public function show($id)
+    public function show(Order $order)
     {
-        //
+        return new OrderResource($order);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -124,7 +139,7 @@ class OrderController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

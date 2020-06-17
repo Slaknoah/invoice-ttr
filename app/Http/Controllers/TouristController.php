@@ -50,17 +50,6 @@ class TouristController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
 
     /**
      * Update the specified resource in storage.
@@ -94,12 +83,12 @@ class TouristController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Tourist $tourist)
     {
-        $tourist = Tourist::find($id);
         $tourist->delete();
 
         return response()->json(['message' => __('responses.tourist.destroyed')], 200);

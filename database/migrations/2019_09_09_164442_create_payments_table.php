@@ -15,6 +15,10 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer('order_id')->nullable();
+            $table->decimal('sum', 10, 2);
+            $table->string('payment_type');
+            $table->string('comment')->nullable();
             $table->timestamps();
         });
     }

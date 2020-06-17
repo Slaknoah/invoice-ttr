@@ -23,6 +23,7 @@ class CreateOrdersTable extends Migration
             $table->integer('manager_id')->nullable();
             $table->integer('provider_id')->nullable();
             $table->integer('bank_details_id')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -39,6 +39,11 @@ Route::group( ['middleware' => 'auth:api' ], function() {
         Route::apiResource('hotels', 'HotelController');
         Route::apiResource('services', 'ServiceController');
         Route::apiResource('orders', 'OrderController');
+        Route::apiResource('hotel-reservation', 'HotelReservationController');
+
+        // Payment
+        Route::get('/payments', 'PaymentController@index');
+        Route::post('/payments', 'PaymentController@store');
     });
 
 });

@@ -6,10 +6,20 @@ return [
         "updated" => "Hotel updated.",
         "destroyed" => "Hotel deleted.",
     ],
+    "hotelReservation" => [
+        "stored" => "Hotel reservation added.",
+        "updated" => "Hotel reservation updated.",
+        "destroyed" => "Hotel reservation deleted.",
+    ],
     "tourist" => [
         "stored" => "Tourist added.",
         "updated" => "Tourist updated.",
         "destroyed" => "Tourist deleted.",
+    ],
+    "order" => [
+        "stored" => "Order added.",
+        "updated" => "Order updated.",
+        "destroyed" => "Order deleted.",
     ],
     "service" => [
         "stored" => "Service added.",

@@ -10,13 +10,10 @@ class Hotel extends Model
         'accommodations' => 'array'
     ];
 
-    protected $fillable = [
-    	'name',
-    	'accommodations'
-    ];
+    protected $guarded = [];
 
-    public function orders() {
-        return $this->hasMany('App/Invoices');
+    public function hotelReservations() {
+        return $this->hasMany('App/HotelReservation', 'hotel_id');
     }
 
     public function setAccommodationsAttribute($value)

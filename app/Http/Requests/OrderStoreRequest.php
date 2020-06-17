@@ -33,7 +33,9 @@ class OrderStoreRequest extends FormRequest
             'provider_id'       => 'required|integer',
             'bank_details_id'   => 'nullable|integer',
             'tourist_ids'       => 'nullable',
-            'tourist_ids.*'     => 'nullable|integer'
+            'tourist_ids.*'     => 'integer',
+            'payments'          => 'nullable|array',
+            'payments.*'        => 'required'
         ];
     }
 }
