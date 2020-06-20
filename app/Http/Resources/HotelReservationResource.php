@@ -21,6 +21,8 @@ class HotelReservationResource extends JsonResource
             'date_start'    => $this->date_start,
             'date_end'      => $this->date_end,
             'accommodation' => $this->accommodation,
+            'created_at'    => $this->created_at,
+            'updated_at'    => $this->updated_at,
             'hotel'         => $this->hotel,
             'order_id'      => $this->order_id,
             'status'        => $this->hotelStatus

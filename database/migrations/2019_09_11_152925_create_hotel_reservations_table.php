@@ -16,12 +16,12 @@ class CreateHotelReservationsTable extends Migration
         Schema::create('hotel_reservations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('hotel_id');
-            $table->string('date_start')->nullable();
-            $table->string('date_end')->nullable();
+            $table->date('date_start')->nullable();
+            $table->date('date_end')->nullable();
             $table->decimal('price', 10, 2);
             $table->decimal('discount', 10, 2)->nullable();
             $table->string('accommodation');
-            $table->integer('status_id');
+            $table->integer('hotel_status_id');
             $table->integer('order_id')->nullable();
             $table->timestamps();
         });

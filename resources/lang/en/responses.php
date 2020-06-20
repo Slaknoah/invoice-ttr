@@ -10,6 +10,7 @@ return [
         "stored" => "Hotel reservation added.",
         "updated" => "Hotel reservation updated.",
         "destroyed" => "Hotel reservation deleted.",
+        "deleted" => "Hotel reservation not found"
     ],
     "tourist" => [
         "stored" => "Tourist added.",

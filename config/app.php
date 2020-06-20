@@ -65,7 +65,9 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Almaty',
+    'date_format' => 'd/m/Y',
+    'date_format_javascript' => 'DD/MM/YYYY',
 
     /*
     |--------------------------------------------------------------------------

@@ -24,18 +24,20 @@ class OrderStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'account_number'    => 'required|integer',
-            'sum'               => 'required|numeric',
-            'commission'        => 'nullable|numeric',
-            'currency_id'       => 'required|integer',
-            'client_id'         => 'required|integer',
-            'manager_id'        => 'required|integer',
-            'provider_id'       => 'required|integer',
-            'bank_details_id'   => 'nullable|integer',
-            'tourist_ids'       => 'nullable',
-            'tourist_ids.*'     => 'integer',
-            'payments'          => 'nullable|array',
-            'payments.*'        => 'required'
+            'account_number'        => 'required|integer',
+            'sum'                   => 'required|numeric',
+            'commission'            => 'nullable|numeric',
+            'currency_id'           => 'required|integer',
+            'client_id'             => 'required|integer',
+            'manager_id'            => 'required|integer',
+            'provider_id'           => 'required|integer',
+            'bank_details_id'       => 'nullable|integer',
+            'tourist_ids'           => 'nullable',
+            'tourist_ids.*'         => 'integer',
+            'payments'              => 'nullable|array',
+            'payments.*'            => 'required',
+            'hotel_reservations'    => 'nullable|array',
+            'hotel_reservations.*'  => 'required'
         ];
     }
 }

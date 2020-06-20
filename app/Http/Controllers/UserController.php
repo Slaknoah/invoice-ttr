@@ -6,10 +6,13 @@ use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Role;
 use App\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource as UserResource;
 use Auth;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Hash;
 use Image;
 use Storage;
@@ -85,7 +88,7 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getAuthUser(Request $request) {
         return response()->json(new UserResource($request->user()));
@@ -93,8 +96,8 @@ class UserController extends Controller
 
     /**
      * @param Request $request
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return AnonymousResourceCollection
+     * @throws AuthorizationException
      */
     public function getUsers(Request $request) {
         $this->authorize('list', User::class);
@@ -104,7 +107,8 @@ class UserController extends Controller
 
     /**
      * @param UserUpdateRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function updateAuthUser(UserUpdateRequest $request) {
         return $this->update($request, Auth::user());
@@ -113,8 +117,8 @@ class UserController extends Controller
     /**
      * @param UserUpdateRequest $request
      * @param User $user
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function update(UserUpdateRequest $request, User $user) {
         $this->authorize('update', $user);
@@ -129,8 +133,8 @@ class UserController extends Controller
 
     /**
      * @param UserStoreRequest $request
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function store(UserStoreRequest $request) {
         $this->authorize('create', User::class);
@@ -143,7 +147,7 @@ class UserController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function deleteAuthUser() {
         $this->authorize('delete', Auth::user());
@@ -153,8 +157,8 @@ class UserController extends Controller
 
     /**
      * @param User $user
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function destroy(User $user) {
         $this->authorize('delete', $user);

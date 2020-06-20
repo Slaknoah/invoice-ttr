@@ -6,7 +6,13 @@ use App\User;
 
 class UserSearch extends Searchable
 {
-    protected static $allowedFilters = ['Role', 'IsVerified'];
+    protected static $allowedFilters = [
+        'Role',
+        'IsVerified',
+        'CreatedAt',
+        'UpdatedAt',
+        'OrderBy'
+    ];
 
     public static function returnModelInstance()
     {

@@ -9,6 +9,6 @@ class HotelStatus extends Model
     protected $guarded = [];
 
     public function hotelReservations() {
-        return $this->hasMany('App\HotelReservation', 'status_id');
+        return $this->hasMany('App\HotelReservation', 'hotel_status_id');
     }
 }

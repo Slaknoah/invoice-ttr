@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\HotelReservation;
+use App\Http\Requests\HotelReservationStoreRequest;
 use App\Order;
 use App\Payment;
 use App\Service;
@@ -87,18 +88,7 @@ class OrderController extends Controller
                 $reservation = HotelReservation::findOrFail($reservation);
                 $order->hotelReservations()->save($reservation);
             } elseif ( is_array($reservation) )  {
-                $date_start = $reservation['date_start'] ?? null;
-                $date_end   = $reservation['date_end']  ?? null;
-                $hotelReservation = new HotelReservation([
-                    'price'          => $reservation['price'] ?? null,
-                    'discount'       => $reservation['discount'] ?? null,
-                    'date_start'     => $date_start ? Carbon::parse($date_start) : null,
-                    'date_end'       => $date_end ? Carbon::parse($date_end) : null,
-                    'accommodation'  => $reservation['accommodation'] ?? null,
-                ]);
-
-                $hotelReservation->hotel()->associate($reservation['hotel_id']);
-                $hotelReservation->hotelStatus()->associate($reservation['status_id']);
+                $hotelReservation = HotelReservation::storeData(new HotelReservationStoreRequest($reservation));
                 $order->hotelReservations()->save($hotelReservation);
             }
         }
