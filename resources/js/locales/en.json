@@ -1,6 +1,6 @@
 {
     "nav": {
-        "statistics": "Statistics",
+        "dashboard": "Dashboard",
         "orders": "Orders",
         "create_order": "Create order",
         "tourists": "Tourists",

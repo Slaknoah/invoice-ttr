@@ -21,19 +21,7 @@ class HotelReservationController extends Controller
     }
 
     public function store(HotelReservationStoreRequest $request) {
-        $hotelReservation = new HotelReservation([
-           'price'          => $request->get('price'),
-           'discount'       => $request->get('discount'),
-           'date_start'     => $request->get('date_start'),
-           'date_end'       => $request->get('date_end'),
-           'accommodation'  => $request->get('accommodation')
-        ]);
-
-        $hotelReservation->hotel()->associate($request->get('hotel_id'));
-
-        $hotelReservation->hotelStatus()->associate($request->get('hotel_status_id'));
-
-        $hotelReservation->save();
+        $hotelReservation = HotelReservation::storeData($request);
 
         return response()->json([
             'message'   => __('responses.hotelReservation.stored'),

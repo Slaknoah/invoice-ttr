@@ -20,6 +20,7 @@ use App\Http\Requests\OrderStoreRequest;
 use App\Http\Requests\OrderUpdateRequest;
 
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
@@ -45,6 +46,7 @@ class OrderController extends Controller
      *
      * @param OrderStoreRequest $request
      * @return Response
+     * @throws \Exception
      */
     public function store(OrderStoreRequest $request)
     {
@@ -54,47 +56,55 @@ class OrderController extends Controller
             'commission'        => $request->get('commission'),
         ]);
 
-        $order->save();
+        DB::beginTransaction();
 
-        $client = User::findOrFail($request->get('client_id'));
-        $order->client()->associate($client);
+        try {
+            $order->save();
 
-        $manager = User::findOrFail($request->get('manager_id'));
-        $order->manager()->associate($manager);
+            $client = User::findOrFail($request->get('client_id'));
+            $order->client()->associate($client);
 
-        $provider =  Provider::findOrFail($request->get('provider_id'));
-        $order->provider()->associate($provider);
+            $manager = User::findOrFail($request->get('manager_id'));
+            $order->manager()->associate($manager);
 
-        $tourists = $request->get('tourist_ids');
-        $order->tourists()->attach($tourists);
+            $provider = Provider::findOrFail($request->get('provider_id'));
+            $order->provider()->associate($provider);
 
-        $payments = $request->get('payments');
-        foreach ($payments as $payment) {
-            if (is_array($payment)) {
-                $order->payments()->save(new Payment([
-                    'sum' => $payment['sum'],
-                    'payment_type' => $payment['payment_type'],
-                    'comment' => $payment['comment']
-                ]));
-            } elseif(is_int($payment)) {
-                $paymentObject = Payment::findOrFail($payment);
-                $order->payments()->save($paymentObject);
+            $tourists = $request->get('tourist_ids');
+            $order->tourists()->attach($tourists);
+
+            $payments = $request->get('payments');
+            foreach ($payments as $payment) {
+                if (is_array($payment)) {
+                    $order->payments()->save(new Payment([
+                        'sum' => $payment['sum'],
+                        'payment_type' => $payment['payment_type'],
+                        'comment' => $payment['comment']
+                    ]));
+                } elseif (is_int($payment)) {
+                    $paymentObject = Payment::findOrFail($payment);
+                    $order->payments()->save($paymentObject);
+                }
             }
+
+            $reservations = $request->get('hotel_reservations');
+            foreach ($reservations as $reservation) {
+                if (is_int($reservation)) {
+                    $reservation = HotelReservation::findOrFail($reservation);
+                    $order->hotelReservations()->save($reservation);
+                } elseif (is_array($reservation)) {
+                    $hotelReservation = HotelReservation::storeData(new HotelReservationStoreRequest($reservation));
+                    $order->hotelReservations()->save($hotelReservation);
+                }
+            }
+
+            $order->save();
+        } catch (\Exception $e) {
+            DB::rollback();
+            throw $e;
         }
 
-        $reservations = $request->get('hotel_reservations');
-        foreach ($reservations as $reservation) {
-            if ( is_int($reservation) ) {
-                $reservation = HotelReservation::findOrFail($reservation);
-                $order->hotelReservations()->save($reservation);
-            } elseif ( is_array($reservation) )  {
-                $hotelReservation = HotelReservation::storeData(new HotelReservationStoreRequest($reservation));
-                $order->hotelReservations()->save($hotelReservation);
-            }
-        }
-
-        $order->save();
-
+        DB::commit();
         return response()->json([
             'message' => __('responses.order.stored'),
             'response' => new OrderResource($order),

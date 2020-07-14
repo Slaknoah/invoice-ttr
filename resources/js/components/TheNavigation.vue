@@ -8,7 +8,9 @@
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class=" right hide-on-med-and-down">
                         <template v-if="isLoggedIn">
-                            <navigation-item :to="{name: 'dashboard', params: { lang: $i18n.locale }}">{{ $t('nav.statistics') }}</navigation-item>
+                            <navigation-item :to="{name: 'dashboard', params: { lang: $i18n.locale }}">
+                                {{$t('nav.dashboard')}}
+                            </navigation-item>
                             <navigation-item :to="{name: 'create_order', params: { lang: $i18n.locale }}">{{ $t('nav.create_order') }}</navigation-item>
                             <navigation-item :to="{name: 'orders', params: { lang: $i18n.locale }}">{{ $t('nav.orders') }}</navigation-item>
                             <navigation-item :to="{name: 'tourists', params: { lang: $i18n.locale }}">{{ $t('nav.tourists') }}</navigation-item>
