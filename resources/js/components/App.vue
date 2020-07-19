@@ -31,12 +31,23 @@ export default {
     computed: {
         hasFloatingBtn() { return this.$route.meta.hasFloatingBtn; },
         modalID() { return '#' + this.$route.meta.modalID; }
-    }, 
+    },
+    created() {
+        /**
+         * Get all necessary data for app init
+         */
+
+        // Roles
+        if(this.$store.getters.isLoggedIn) {
+            this.$store.dispatch('fetchRoles');
+        }
+    },
     mounted() {
         const dropdown_options = {
             'coverTrigger':false,
             'alignment':'right',
-            'constrainWidth':false
+            'constrainWidth':false,
+            'hover': true
         };
         $('.dropdown-trigger').dropdown(dropdown_options);
     },

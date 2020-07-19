@@ -189,7 +189,7 @@ export default {
     },
     computed: {
         rolesOptions() {
-            return this.ROLES.map(role => {
+            return this.$store.getters.getRoles.map(role => {
                 return {
                     value: parseInt(role.id),
                     text: this.$capitalizeText(role.name)

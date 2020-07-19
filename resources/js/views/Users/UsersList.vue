@@ -9,25 +9,7 @@
                     <BaseBreadcrumb/>
                 </div>
             </div>
-            
-            <div class="card-panel">
-                <div class="row">
-                    <BaseSelect 
-                        parentClass="col s4" 
-                        :options="rolesOptions"
-                        :label="$t('users.role')"
-                        v-model="filters.role"
-                        @change.native ="fetchUsers"
-                        >
-                    </BaseSelect>
-                    <div class="input-field col s4">
-                        <label>
-                            <input type="checkbox" v-model="filters.verified" @change="fetchUsers"/>
-                            <span>{{ $t('users.verified') }}</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
+            <ModelFilter :filters="userFilters" @filtersChange="filterChanged"/>
         </div>
         <div class="container frame"> 
             <table class="editable">
@@ -106,8 +88,7 @@
                     :is-add-dots="true"
                     @previousPage="pageChangeHandle('previous')"
                     @nextPage="pageChangeHandle('next')"
-                    @loadPage="pageChangeHandle"
-                />
+                    @loadPage="pageChangeHandle"/>
             </transition>
         </div>
         <UserView
@@ -116,7 +97,7 @@
                 :editLink="modalID"
                 @editUser="editModel"
         />
-        <UserForm 
+        <UserForm
             :modalLink="modalID"
             :mode="currentFormMode"
             :model="currentModel"
@@ -130,6 +111,7 @@ import listMixin from "../../mixins/listMixin";
 import UserLoading from "../../components/Preloaders/UserLoading";
 import UserForm from './UserForm';
 import UserView from './UserView';
+import ModelFilter from "../../components/ModelFilter";
 
 export default {
     data() {
@@ -137,25 +119,14 @@ export default {
             users: [],
             filters: {},
             viewID: 'view-user',
-            verifiedOptions: [
-                {
-                    value: 1,
-                    text: 'Yes'
-                },
-                {
-                    value: 2,
-                    text: 'No'
-                }
-            ]
         }
     },
     methods: {
         fetchUsers() {
-            this.$store.dispatch('fetchUsers', {
-                page: this.currentPage,
-                role: this.filters.role,
-                verified: this.filters.verified
-            })
+            this.filters.page = this.currentPage;
+
+            console.log(this.filters);
+            this.$store.dispatch('fetchUsers', this.filters)
                 .then(res => {
                     this.users = res;    
                 })
@@ -163,11 +134,11 @@ export default {
 
             this.isFetching = false;
         },
-        viewModel(val) {
-            this.currentModel = val;
+        viewModel(user) {
+            this.currentModel = user;
         },
-        editModel(val) {
-            this.currentModel = val;
+        editModel(user) {
+            this.currentModel = user;
             this.currentFormMode = "edit";
         },
         deleteUser(id, event) {
@@ -179,6 +150,10 @@ export default {
                 this.showError(error.response);
             }); 
             event.stopPropagation();
+        },
+        filterChanged(filtersResult) {
+            this.filters = filtersResult;
+            this.fetchUsers();
         }
     },
     computed: {
@@ -191,28 +166,55 @@ export default {
             if(this.getUsersMeta)
                 return Math.ceil(this.getUsersMeta.total / this.getUsersMeta.per_page);
         },
-        rolesOptions() {
-            return this.ROLES.map(role => {
-                return {
-                    value: role.id,
-                    text: this.$capitalizeText(role.name)
+        userFilters() {
+            return [
+                {
+                    type: 'text',
+                    name: 'search',
+                    label: 'Search',
+                },
+                {
+                    type: 'select',
+                    name: 'verified',
+                    label: 'Verified',
+                    options: [
+                        {
+                            value: 'yes',
+                            text: 'Yes'
+                        },
+                        {
+                            value: 'no',
+                            text: 'No'
+                        }
+                    ],
+                    value: null
+                },
+                {
+                    type: 'select',
+                    name: 'role',
+                    label: 'Role',
+                    options: this.$store.getters.getRoles.map(role => {
+                            return {
+                                value: role.id,
+                                text: this.$capitalizeText(role.name)
+                            }
+                        })
                 }
-            });
-        }
+            ]
+        },
     },
-    created() { 
+    created() {
         if (this.$store.getters.getUsersFilter) {
             // Copy dont reference filter so they can be modified caps of mutations
-            this.filters = { ...this.$store.getters.getUsersFilter };
+            this.filters = {...this.$store.getters.getUsersFilter};
         }
 
-        if(this.getUsers.length) {
-            this.users = this.getUsers; 
-        }
-        else {
-            if(this.$route.query.page)
+        if (this.getUsers.length) {
+            this.users = this.getUsers;
+        } else {
+            if (this.$route.query.page)
                 this.currentPage = parseInt(this.$route.query.page);
-            this.fetchUsers();   
+            this.fetchUsers();
             this.isFetching = true;
         }
     },
@@ -222,10 +224,12 @@ export default {
             this.fetchUsers();
         }
     },
+
     components: {
         UserForm,
         UserView,
-        UserLoading
+        UserLoading,
+        ModelFilter
     },
     mixins: [ listMixin ]
 }

@@ -54,7 +54,6 @@ export default {
         name() {
           return "input-" + this.label.replace(/\s+/g, "-").toLowerCase();
         },
-
     },
     watch: {
         options() {
@@ -69,9 +68,9 @@ export default {
         }
     },
     mounted() {
-            $(document).ready(function(){
-                $('select').formSelect();
-            });
+        $(document).ready(function(){
+            $('select').formSelect();
+        });
     },
 };
 </script>
