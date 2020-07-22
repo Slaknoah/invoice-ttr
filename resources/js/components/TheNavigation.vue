@@ -10,29 +10,29 @@
                     <ul id="nav-mobile" class=" right hide-on-med-and-down">
                         <template v-if="isLoggedIn">
                             <navigation-item :to="{name: 'dashboard', params: { lang: $i18n.locale }}">
-                                <template v-slot:route-content>{{ $t('nav.dashboard') }}</template>
+                                <template #route-content>{{ $t('nav.dashboard') }}</template>
                             </navigation-item>
 
                             <navigation-item :to="{name: 'orders', params: { lang: $i18n.locale }}" has-submenu>
-                                <template v-slot:route-content>{{ $t('nav.orders') }}</template>
+                                <template #route-content>{{ $t('nav.orders') }}</template>
 
-                                <template v-slot:route-submenu>
+                                <template #route-submenu>
                                     <navigation-item :to="{name: 'create_order', params: { lang: $i18n.locale }}">
-                                        <template v-slot:route-content>{{ $t('nav.create_order') }}</template>
+                                        <template #route-content>{{ $t('nav.create_order') }}</template>
                                     </navigation-item>
                                 </template>
                             </navigation-item>
 
                             <navigation-item :to="{name: 'tourists', params: { lang: $i18n.locale }}">
-                                <template v-slot:route-content>{{ $t('nav.tourists') }}</template>
+                                <template #route-content>{{ $t('nav.tourists') }}</template>
                             </navigation-item>
 
-                            <navigation-item :to="{name: 'hotels', params: { lang: $i18n.locale }}"
-                                             :text="$t('nav.hotels')">
+                            <navigation-item :to="{name: 'hotels', params: { lang: $i18n.locale }}">
+                                <template #route-content>{{ $t('nav.hotels') }}</template>
                             </navigation-item>
 
                             <navigation-item :to="{name: 'services', params: { lang: $i18n.locale }}">
-                                <template v-slot:route-content>{{ $t('nav.services') }}</template>
+                                <template #route-content>{{ $t('nav.services') }}</template>
                             </navigation-item>
 
                             <li>
@@ -72,7 +72,7 @@
                         </template>
 
                         <navigation-item to="javascript:void(0);" has-submenu>
-                            <template v-slot:route-content><span class="flag-icon" :class="currentLangFlag"></span></template>
+                            <template #route-content><span class="flag-icon" :class="currentLangFlag"></span></template>
 
                             <template v-slot:route-submenu>
                                 <li ><a  @click.prevent="setLocale('en')" class="grey-text text-darken-1"><i class="flag-icon flag-icon-gb"></i> English</a></li>
@@ -89,48 +89,48 @@
                             </a>
                             <ul v-show="isLoggedIn" id="user_menu" class="dropdown-content">
                                 <navigation-item :to="{name: 'profile', params: { lang: $i18n.locale }}">
-                                    <template v-slot:route-content><i class="material-icons">person</i>{{ $t('nav.profile') }}</template>
+                                    <template #route-content><i class="material-icons">person</i>{{ $t('nav.profile') }}</template>
                                 </navigation-item>
 
                                 <navigation-item to="/settings">
-                                    <template v-slot:route-content><i class="material-icons">settings</i>Настройки</template>
+                                    <template #route-content><i class="material-icons">settings</i>Настройки</template>
                                 </navigation-item>
 
                                 <navigation-item to="/requisites">
-                                    <template v-slot:route-content><i class="material-icons">payment</i>Реквизиты компании</template>
+                                    <template #route-content><i class="material-icons">payment</i>Реквизиты компании</template>
                                 </navigation-item>
 
                                 <navigation-item to="/providers">
-                                    <template v-slot:route-content><i class="material-icons">list_alt</i>Список поставщиков</template>
+                                    <template #route-content><i class="material-icons">list_alt</i>Список поставщиков</template>
                                 </navigation-item>
 
                                 <navigation-item to="/hotel_statuses">
-                                    <template v-slot:route-content><i class="material-icons">hotel</i>Статусы отеля</template>
+                                    <template #route-content><i class="material-icons">hotel</i>Статусы отеля</template>
                                 </navigation-item>
 
 
                                 <navigation-item to="/payment_statuses">
-                                    <template v-slot:route-content><i class="material-icons">attach_money</i>Статусы платежа</template>
+                                    <template #route-content><i class="material-icons">attach_money</i>Статусы платежа</template>
                                 </navigation-item>
 
                                 <navigation-item :to="{name: 'users', params: { lang: $i18n.locale }}">
-                                    <template v-slot:route-content><i class="material-icons">supervisor_account</i>{{ $t('nav.users') }}</template>
+                                    <template #route-content><i class="material-icons">supervisor_account</i>{{ $t('nav.users') }}</template>
                                 </navigation-item>
 
                                 <li class="divider"></li>
 
                                 <navigation-item :to="{name: 'logout', params: { lang: $i18n.locale }}">
-                                    <template v-slot:route-content><i class="material-icons">exit_to_app</i>Выход</template>
+                                    <template #route-content><i class="material-icons">exit_to_app</i>Выход</template>
                                 </navigation-item>
                             </ul>
                         </li>
 
                         <template v-if="!isLoggedIn">
                             <navigation-item :to="{name: 'login', params: { lang: $i18n.locale }}">
-                                <template v-slot:route-content>{{ $t("nav.login") }}</template>
+                                <template #route-content>{{ $t("nav.login") }}</template>
                             </navigation-item>
                             <navigation-item :to="{name: 'register', params: { lang: $i18n.locale }}">
-                                <template v-slot:route-content>{{ $t("nav.register") }}</template>
+                                <template #route-content>{{ $t("nav.register") }}</template>
                             </navigation-item>
                         </template>
                     </ul>

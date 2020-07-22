@@ -12,6 +12,5 @@
     "/register.js": "/register.js",
     "/resetpassword.js": "/resetpassword.js",
     "/touristslist.js": "/touristslist.js",
-    "/vendors~resetpassword~touristslist.js": "/vendors~resetpassword~touristslist.js",
-    "/vendors~touristslist.js": "/vendors~touristslist.js"
+    "/vendors~resetpassword~touristslist.js": "/vendors~resetpassword~touristslist.js"
 }

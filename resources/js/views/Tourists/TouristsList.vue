@@ -9,6 +9,7 @@
                     <BaseBreadcrumb/>
                 </div>
             </div>
+            <model-filter :filters="touristFilters"></model-filter>
         </div>
         <div class="container frame">
             <table class="editable">
@@ -80,6 +81,7 @@ import { mapGetters } from "vuex";
 import TouristForm from "./TouristForm";
 import TouristLoading from "../../components/Preloaders/TouristLoading";
 import listMixin from "../../mixins/listMixin";
+import ModelFilter from "../../components/ModelFilter";
 
 export default {
     data() {
@@ -116,6 +118,15 @@ export default {
             if(this.getTouristsMeta)
                 return Math.ceil(this.getTouristsMeta.total / this.getTouristsMeta.per_page);
         },
+        touristFilters() {
+            return [
+                {
+                    type: 'text',
+                    name: 'search',
+                    label: 'Find tourist by name, email...',
+                }
+            ]
+        }
     },
     created() { 
         if(this.getTourists.length) {
@@ -135,7 +146,8 @@ export default {
     },
     components: { 
         TouristForm,
-        TouristLoading
+        TouristLoading,
+        ModelFilter
     },
     mixins: [ listMixin ]
 }

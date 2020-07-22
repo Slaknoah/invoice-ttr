@@ -6,10 +6,10 @@
                     <h4 class="title">{{ $t('users.title') }}</h4>
                 </div>
                 <div class="col s12 m6 l6 right-align-md">
-                    <BaseBreadcrumb/>
+                    <base-breadcrumb></base-breadcrumb>
                 </div>
             </div>
-            <ModelFilter :filters="userFilters" @filtersChange="filterChanged"/>
+            <model-filter :filters="userFilters" @filtersChange="filterChanged"></model-filter>
         </div>
         <div class="container frame"> 
             <table class="editable">
@@ -27,7 +27,7 @@
                     <tbody  v-if="!users.length && isFetching" class="loading">
                         <tr v-for="index in 5" :key="index">
                             <td colspan="5">
-                                <UserLoading/>
+                                <user-loading></user-loading>
                             </td>
                         </tr>
                     </tbody>
@@ -80,7 +80,7 @@
             </table>
 
             <transition name="fade">
-                <BasePagination
+                <base-pagination
                     v-if="pageCount > 1"
                     :current-page="currentPage"
                     :page-count="pageCount"
@@ -88,20 +88,21 @@
                     :is-add-dots="true"
                     @previousPage="pageChangeHandle('previous')"
                     @nextPage="pageChangeHandle('next')"
-                    @loadPage="pageChangeHandle"/>
+                    @loadPage="pageChangeHandle">
+                </base-pagination>
             </transition>
         </div>
-        <UserView
+        <user-view
                 :viewLink="viewID"
                 :model="currentModel"
                 :editLink="modalID"
-                @editUser="editModel"
-        />
-        <UserForm
+                @editUser="editModel">
+        </user-view>
+        <user-form
             :modalLink="modalID"
             :mode="currentFormMode"
-            :model="currentModel"
-        />
+            :model="currentModel">
+        </user-form>
     </div>
 </template>
 
@@ -125,7 +126,6 @@ export default {
         fetchUsers() {
             this.filters.page = this.currentPage;
 
-            console.log(this.filters);
             this.$store.dispatch('fetchUsers', this.filters)
                 .then(res => {
                     this.users = res;    
@@ -171,7 +171,7 @@ export default {
                 {
                     type: 'text',
                     name: 'search',
-                    label: 'Search',
+                    label: 'Find user by name, email...',
                 },
                 {
                     type: 'select',

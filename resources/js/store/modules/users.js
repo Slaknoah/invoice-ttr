@@ -49,6 +49,8 @@ const actions = {
         if (parseInt(filter.page)) queryString += `?page=${filter.page}`;
         if (parseInt(filter.role)) queryString += `&role=${filter.role}`;
         if (filter.verified) queryString += `&is_verified=${filter.verified}`;
+        if (filter.search) queryString += `&search[field][0]=name&search[field][1]=email&search[field][2]=role.name&search[query]=${filter.search}`;
+
         return new Promise((resolve, reject) =>  {
             axios
                 .get(queryString)

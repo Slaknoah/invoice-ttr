@@ -1,22 +1,23 @@
 <template>
-    <div class="card-panel">
+    <div class="card-panel" v-if="filters.length">
         <div class="row">
             <template v-for="filter in filters">
-                <BaseSelect
+                <base-select
                         v-if="filter.type === 'select'"
                         parentClass="col s4"
                         :options="filter.options"
                         :label="filter.label"
                         @input="emitData"
                         v-model="filter.value">
-                </BaseSelect>
-                <BaseInput
+                </base-select>
+                <base-input
                         v-else-if="filter.type === 'text'"
                         v-model="filter.value"
                         :label="filter.label"
                         type="text"
+                        @input="emitData"
                         parentClass="input-field col s4">
-                </BaseInput>
+                </base-input>
             </template>
         </div>
     </div>

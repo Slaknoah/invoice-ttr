@@ -11,7 +11,8 @@ class UserSearch extends Searchable
         'IsVerified',
         'CreatedAt',
         'UpdatedAt',
-        'OrderBy'
+        'OrderBy',
+        'Search'
     ];
 
     public static function returnModelInstance()
