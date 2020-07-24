@@ -9,9 +9,9 @@
                     <base-breadcrumb></base-breadcrumb>
                 </div>
             </div>
-            <model-filter :filters="userFilters" @filtersChange="filterChanged"></model-filter>
+            <resource-filter :filters="userFilters" @filtersChange="filterChanged"></resource-filter>
         </div>
-        <div class="container frame"> 
+        <div class="container frame">
             <table class="editable">
                 <thead>
                     <tr>
@@ -21,10 +21,12 @@
                         <th>{{ $t('users.verified') }}</th>
                         <th>{{ $t('users.email') }}</th>
                         <th style="width:50px"></th>
+                        <th style="width:50px"></th>
                     </tr>
                 </thead>
+
                 <transition name="fade" mode="out-in">
-                    <tbody  v-if="!users.length && isFetching" class="loading">
+                    <tbody  v-if="!resources.length && isFetching" class="loading">
                         <tr v-for="index in 5" :key="index">
                             <td colspan="5">
                                 <user-loading></user-loading>
@@ -32,7 +34,7 @@
                         </tr>
                     </tbody>
 
-                    <tbody v-else-if="!users.length && !isFetching">
+                    <tbody v-else-if="!resources.length && !isFetching">
                         <tr>
                             <td colspan="5" class="center-align">
                                 <h4>No resource found!</h4>
@@ -40,14 +42,13 @@
                         </tr>
                     </tbody>
                     <transition-group tag="tbody" v-else name="list-item" >
-                        <tr 
-                            v-for="(user, index) in users" 
-                            :href="'#' + viewID" 
-                            :key="user.id" 
+                        <tr
+                            v-for="(user, index) in resources"
+                            :href="'#' + viewID"
+                            :key="user.id"
                             :data-index="index"
                             class="sidenav-trigger"
-                            @click="viewModel(user)"
-                            >
+                            @click="viewResource(user)">
                             <td>{{ user.id }}</td>
                             <td><img :src="user.avatar"> {{ user.name }}</td>
                             <td>{{ $capitalizeText(user.role.name) }}</td>
@@ -60,23 +61,21 @@
                                 <button
                                         class="btn-flat waves-effect sidenav-trigger"
                                         :href="'#' + modalID"
-                                        @click.prevent="editModel(user)">
+                                        @click.prevent="editResource(user)">
                                     <i class="material-icons">edit</i>
                                 </button>
                             </td>
                             <td class="actions">
-                                <button 
-                                    class="btn-flat waves-effect sidenav-trigger" 
-                                    :href="'#' + viewID" 
-                                    @click="viewModel(user)">
+                                <button
+                                    class="btn-flat waves-effect sidenav-trigger"
+                                    :href="'#' + viewID"
+                                    @click="viewResource(user)">
                                     <i class="material-icons">remove_red_eye</i>
                                 </button>
                             </td>
                         </tr >
                     </transition-group>
-
                 </transition>
-                
             </table>
 
             <transition name="fade">
@@ -94,78 +93,35 @@
         </div>
         <user-view
                 :viewLink="viewID"
-                :model="currentModel"
+                :model="currentResource"
                 :editLink="modalID"
-                @editUser="editModel">
+                @editUser="editResource">
         </user-view>
         <user-form
             :modalLink="modalID"
             :mode="currentFormMode"
-            :model="currentModel">
+            :model="currentResource">
         </user-form>
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import listMixin from "../../mixins/listMixin";
 import UserLoading from "../../components/Preloaders/UserLoading";
 import UserForm from './UserForm';
 import UserView from './UserView';
-import ModelFilter from "../../components/ModelFilter";
 
 export default {
     data() {
         return {
-            users: [],
-            filters: {},
             viewID: 'view-user',
-        }
-    },
-    methods: {
-        fetchUsers() {
-            this.filters.page = this.currentPage;
-
-            this.$store.dispatch('fetchUsers', this.filters)
-                .then(res => {
-                    this.users = res;    
-                })
-                .catch(error => this.showError(error.response));
-
-            this.isFetching = false;
-        },
-        viewModel(user) {
-            this.currentModel = user;
-        },
-        editModel(user) {
-            this.currentModel = user;
-            this.currentFormMode = "edit";
-        },
-        deleteUser(id, event) {
-            this.$store.dispatch('deleteUser', id)
-            .then(message => {
-                M.toast({html: message});
-            })
-            .catch(error => {
-                this.showError(error.response);
-            }); 
-            event.stopPropagation();
-        },
-        filterChanged(filtersResult) {
-            this.filters = filtersResult;
-            this.fetchUsers();
+            fetchJobName: 'fetchUsers',
+            deleteJobName: 'deleteUser'
         }
     },
     computed: {
-        ...mapGetters([
-            'getUsers',
-            'getUsersLinks',
-            'getUsersMeta',
-        ]),
-        pageCount() { 
-            if(this.getUsersMeta)
-                return Math.ceil(this.getUsersMeta.total / this.getUsersMeta.per_page);
-        },
+        storedResources() { return this.$store.getters.getUsers },
+        resourceMetas() { return this.$store.getters.getUsersMeta },
         userFilters() {
             return [
                 {
@@ -208,28 +164,11 @@ export default {
             // Copy dont reference filter so they can be modified caps of mutations
             this.filters = {...this.$store.getters.getUsersFilter};
         }
-
-        if (this.getUsers.length) {
-            this.users = this.getUsers;
-        } else {
-            if (this.$route.query.page)
-                this.currentPage = parseInt(this.$route.query.page);
-            this.fetchUsers();
-            this.isFetching = true;
-        }
     },
-    watch: {
-        currentPage() {
-            this.users = [];
-            this.fetchUsers();
-        }
-    },
-
     components: {
         UserForm,
         UserView,
-        UserLoading,
-        ModelFilter
+        UserLoading
     },
     mixins: [ listMixin ]
 }
@@ -242,9 +181,11 @@ export default {
         border-radius: 50%;
         margin-right: 13px;
     }
+
     td .badge {
         margin-left: 10px;
     }
+
     tbody td:nth-of-type(2){
         display: inline-flex;
         align-items: center;

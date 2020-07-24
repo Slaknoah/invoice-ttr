@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Search\TouristSearch;
 use App\Tourist;
 use Illuminate\Http\Request;
 use App\Http\Resources\TouristResource;
 use App\Rules\PhoneNumber;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class TouristController extends Controller
 {
@@ -14,18 +16,20 @@ class TouristController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param Request $request
      * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return TouristResource::collection(Tourist::orderBy('created_at', 'desc')->paginate(config('resources.items_per_page')));
+        $touristSearch = new TouristSearch();
+        return TouristResource::collection($touristSearch->apply($request));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -54,9 +58,9 @@ class TouristController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -83,8 +87,8 @@ class TouristController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
-     * @return \Illuminate\Http\Response
+     * @param Tourist $tourist
+     * @return Response
      * @throws \Exception
      */
     public function destroy(Tourist $tourist)

@@ -37,11 +37,13 @@ const mutations = {
 };
 
 const actions = {
-    fetchHotels({ commit }, pageNumber) {
-        let query = pageNumber ? `?page=${pageNumber}` : '';
+    fetchHotels({ commit }, filter) {
+        let queryString = "/hotels?";
+        if (parseInt(filter.page)) queryString += `&page=${filter.page}`;
+        if (filter.search) queryString += `&search[field][0]=name&search[query]=${filter.search}`;
         return new Promise((resolve, reject) =>  {
             axios
-                .get(`/hotels${query}`)
+                .get(queryString)
                 .then(res => {
                     commit('SET_HOTELS', res.data.data);
                     commit('SET_HOTELS_LINKS', res.data.links);

@@ -2,37 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Search\ServiceSearch;
 use App\Service;
 use Illuminate\Http\Request;
 use App\Http\Resources\ServiceResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class ServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return ServiceResource::collection(Service::orderBy('created_at', 'desc')->paginate(config('resources.items_per_page')));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $serviceSearch = new ServiceSearch();
+        return ServiceResource::collection($serviceSearch->apply($request));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -55,7 +50,7 @@ class ServiceController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit($id)
     {
@@ -66,9 +61,9 @@ class ServiceController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -90,7 +85,7 @@ class ServiceController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Service  $service
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

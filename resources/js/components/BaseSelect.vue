@@ -32,7 +32,7 @@ export default {
         value: [String, Number],
         notSelectedLabel: {
           type: String,
-          default: "Any"
+          default: "All"
         },
         options: {
           type: Array

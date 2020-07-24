@@ -6,9 +6,10 @@
                     <h4 class="title">{{ $t('hotels.title') }}</h4>
                 </div>
                 <div class="col s12 m6 l6 right-align-md">
-                    <BaseBreadcrumb/>
+                    <base-breadcrumb></base-breadcrumb>
                 </div>
             </div>
+            <resource-filter :filters="hotelFilters" @filtersChange="filterChanged"></resource-filter>
         </div>
         <div class="container frame">
             <table class="editable">
@@ -21,22 +22,30 @@
                 </thead>
 
                 <transition name="fade" mode="out-in">
-                    <tbody  v-if="!hotels.length" class="loading">
+                    <tbody  v-if="!resources.length && isFetching" class="loading">
                         <tr v-for="index in 5" :key="index">
                             <td colspan="3">
-                                <HotelLoading/>
+                                <hotel-loading></hotel-loading>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tbody v-else-if="!resources.length && !isFetching">
+                        <tr>
+                            <td colspan="5" class="center-align">
+                                <h4>No resource found!</h4>
                             </td>
                         </tr>
                     </tbody>
 
                     <transition-group tag="tbody" v-else name="list-item" >
                         <tr 
-                            v-for="(hotel, index) in hotels" 
+                            v-for="(hotel, index) in resources"
                             :href="'#' + modalID" 
                             :key="hotel.id" 
                             :data-index="index"
                             class="sidenav-trigger"
-                            @click="editModel(hotel)"
+                            @click="editResource(hotel)"
                             >
                             <td>{{ hotel.name }}</td>
                             <td>
@@ -44,7 +53,7 @@
                                     {{ accommodation }}
                                 </div>
                             </td>
-                            <td class="actions" @click.prevent="deleteHotel(hotel.id, $event)">
+                            <td class="actions" @click.prevent="deleteResource(hotel.id, $event)">
                                 <button class="btn-flat waves-effect" type="submit" name="action">
                                     <i class="material-icons">delete</i>
                                 </button>
@@ -55,7 +64,7 @@
             </table>
 
             <transition name="fade">
-                <BasePagination
+                <base-pagination
                     v-if="pageCount > 1"
                     :current-page="currentPage"
                     :page-count="pageCount"
@@ -63,20 +72,19 @@
                     :is-add-dots="true"
                     @previousPage="pageChangeHandle('previous')"
                     @nextPage="pageChangeHandle('next')"
-                    @loadPage="pageChangeHandle"
-                />
+                    @loadPage="pageChangeHandle">
+                </base-pagination>
             </transition>
         </div>
-        <HotelForm 
+        <hotel-form
             :modalLink="modalID" 
             :mode="currentFormMode"
-            :model="currentModel"
-        />
+            :model="currentResource">
+        </hotel-form>
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import HotelForm from "./HotelForm";
 import HotelLoading from "../../components/Preloaders/HotelLoading";
 import listMixin from "../../mixins/listMixin";
@@ -84,58 +92,26 @@ import listMixin from "../../mixins/listMixin";
 export default {
     data() {
         return {
-            hotels: [],
-        }
-    },
-    methods: {
-        fetchHotels() {
-            this.$store.dispatch('fetchHotels', this.currentPage)
-                .then(res => {
-                    this.hotels = res;    
-                })
-                .catch(error => {console.log(error); this.showError(error.response)});
-        },
-        deleteHotel(id, event) {
-            this.$store.dispatch('deleteHotel', id)
-            .then(message => {
-                M.toast({html: message});
-            })
-            .catch(error => {
-                this.showError(error.response);
-            }); 
-            event.stopPropagation();
+            fetchJobName: 'fetchHotels',
+            deleteJobName: 'deleteHotel'
         }
     },
     computed: {
-        ...mapGetters([
-            'getHotels',
-            'getHotelsLinks',
-            'getHotelsMeta'
-        ]),
-        pageCount() { 
-            if(this.getHotelsMeta)
-                return Math.ceil(this.getHotelsMeta.total / this.getHotelsMeta.per_page);
-        },
-    },
-    created() { 
-        if(this.getHotels.length) {
-            this.hotels = this.getHotels;
-        }
-        else {
-            if(this.$route.query.page)
-                this.currentPage = parseInt(this.$route.query.page);
-            this.fetchHotels();    
-        }
-    },
-    watch: {
-        currentPage() {
-            this.hotels = [];
-            this.fetchHotels();
+        storedResources() { return this.$store.getters.getHotels },
+        resourceMetas() { return this.$store.getters.getHotelsMeta },
+        hotelFilters() {
+            return [
+                {
+                    type: 'text',
+                    name: 'search',
+                    label: 'Find hotel by name',
+                }
+            ]
         }
     },
     components: { 
         HotelForm,
-        HotelLoading
+        HotelLoading,
     },
     mixins: [ listMixin ]
 }

@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Hotel;
+use App\Search\HotelSearch;
 use Illuminate\Http\Request;
 use App\Http\Resources\HotelResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 
 class HotelController extends Controller
@@ -12,28 +15,20 @@ class HotelController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param Request $request
+     * @return AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        return HotelResource::collection(Hotel::orderBy('created_at', 'desc')->paginate(config('resources.items_per_page')));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $hotelSearch = new HotelSearch();
+        return HotelResource::collection($hotelSearch->apply($request));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -58,7 +53,7 @@ class HotelController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Hotel  $hotel
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Hotel $hotel)
     {
@@ -69,9 +64,9 @@ class HotelController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      * @param  \App\Hotel  $hotel
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, $id)
     {
@@ -95,7 +90,7 @@ class HotelController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Hotel  $hotel
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy($id)
     {

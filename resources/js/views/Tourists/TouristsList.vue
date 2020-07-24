@@ -6,10 +6,10 @@
                     <h4 class="title">{{ $t('tourists.title') }}</h4>
                 </div>
                 <div class="col s12 m6 l6 right-align-md">
-                    <BaseBreadcrumb/>
+                    <base-breadcrumb></base-breadcrumb>
                 </div>
             </div>
-            <model-filter :filters="touristFilters"></model-filter>
+            <resource-filter :filters="touristFilters" @filtersChange="filterChanged"></resource-filter>
         </div>
         <div class="container frame">
             <table class="editable">
@@ -24,28 +24,36 @@
                 </thead>
 
                 <transition name="fade" mode="out-in">
-                    <tbody  v-if="!tourists.length" class="loading">
+                    <tbody  v-if="!resources.length && isFetching" class="loading">
                         <tr v-for="index in 5" :key="index">
                             <td colspan="5">
-                                <TouristLoading/>
+                                <tourist-loading></tourist-loading>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tbody v-else-if="!resources.length && !isFetching">
+                        <tr>
+                            <td colspan="5" class="center-align">
+                                <h4>No resource found!</h4>
                             </td>
                         </tr>
                     </tbody>
 
                     <transition-group tag="tbody" v-else name="list-item" >
                         <tr 
-                            v-for="(tourist, index) in tourists" 
+                            v-for="(tourist, index) in resources"
                             :href="'#' + modalID" 
                             :key="tourist.id" 
                             :data-index="index"
                             class="sidenav-trigger"
-                            @click="editModel(tourist)"
+                            @click="editResource(tourist)"
                             >
                             <td>{{ tourist.name }}</td>
                             <td>{{ tourist.phone }}</td>
                             <td>{{ tourist.email }}</td>
                             <td >{{ $shortenText(tourist.description, 100) }}</td>
-                            <td class="actions" @click.prevent="deleteTourist(tourist.id, $event)">
+                            <td class="actions" @click.prevent="deleteResource(tourist.id, $event)">
                                 <button class="btn-flat waves-effect" type="submit" name="action">
                                     <i class="material-icons">delete</i>
                                 </button>
@@ -56,7 +64,7 @@
             </table>
 
             <transition name="fade">
-                <BasePagination
+                <base-pagination
                     v-if="pageCount > 1"
                     :current-page="currentPage"
                     :page-count="pageCount"
@@ -64,96 +72,47 @@
                     :is-add-dots="true"
                     @previousPage="pageChangeHandle('previous')"
                     @nextPage="pageChangeHandle('next')"
-                    @loadPage="pageChangeHandle"
-                />
+                    @loadPage="pageChangeHandle">
+                </base-pagination>
             </transition>
         </div>
-        <TouristForm 
+        <tourist-form
             :modalLink="modalID" 
             :mode="currentFormMode"
-            :model="currentModel"
-        />
+            :model="currentResource">
+        </tourist-form>
     </div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
 import TouristForm from "./TouristForm";
 import TouristLoading from "../../components/Preloaders/TouristLoading";
 import listMixin from "../../mixins/listMixin";
-import ModelFilter from "../../components/ModelFilter";
 
 export default {
     data() {
         return {
-            tourists: [],
-        }
-    },
-    methods: {
-        fetchTourists() {
-            this.$store.dispatch('fetchTourists', this.currentPage)
-                .then(res => {
-                    this.tourists = res;    
-                })
-                .catch(error => this.showError(error.response));
-        },
-        deleteTourist(id, event) {
-            this.$store.dispatch('deleteTourist', id)
-            .then(message => {
-                M.toast({html: message});
-            })
-            .catch(error => {
-                this.showError(error.response);
-            }); 
-            event.stopPropagation();
+            fetchJobName: 'fetchTourists',
+            deleteJobName: 'deleteTourist'
         }
     },
     computed: {
-        ...mapGetters([
-            'getTourists',
-            'getTouristsLinks',
-            'getTouristsMeta'
-        ]),
-        pageCount() { 
-            if(this.getTouristsMeta)
-                return Math.ceil(this.getTouristsMeta.total / this.getTouristsMeta.per_page);
-        },
+        storedResources() { return this.$store.getters.getTourists },
+        resourceMetas() { return this.$store.getters.getTouristsMeta },
         touristFilters() {
             return [
                 {
                     type: 'text',
                     name: 'search',
-                    label: 'Find tourist by name, email...',
+                    label: 'Find tourist by name, email or telephone',
                 }
             ]
-        }
-    },
-    created() { 
-        if(this.getTourists.length) {
-            this.tourists = this.getTourists;
-        }
-        else {
-            if(this.$route.query.page)
-                this.currentPage = parseInt(this.$route.query.page);
-            this.fetchTourists();    
-        }
-    },
-    watch: {
-        currentPage() {
-            this.tourists = [];
-            this.fetchTourists();
         }
     },
     components: { 
         TouristForm,
         TouristLoading,
-        ModelFilter
     },
     mixins: [ listMixin ]
 }
 </script>
-
-<style scoped>
-    table {
-    }
-</style>
