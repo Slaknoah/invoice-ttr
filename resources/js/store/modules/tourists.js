@@ -3,6 +3,7 @@ import axios from "../../bootstrap/axios";
 const state = {
     tourists: [],
     touristsLinks: {},
+    touristsFilter: {},
     touristsMeta: {},
 };
 
@@ -33,7 +34,10 @@ const mutations = {
             let index = state.tourists.map( tourist => {return tourist.id}).indexOf(payload);
             state.tourists.splice(index, 1);
         }
-    }
+    },
+    SET_TOURISTS_FILTER(state, payload) {
+        Object.assign(state.touristsFilter, payload);
+    },
 };
 
 const actions = {
@@ -49,6 +53,8 @@ const actions = {
                     commit('SET_TOURISTS', res.data.data);
                     commit('SET_TOURISTS_LINKS', res.data.links);
                     commit('SET_TOURISTS_META', res.data.meta);
+                    commit("SET_TOURISTS_FILTER", filter);
+
                     resolve(res.data.data);
                 })
                 .catch(error => reject(error));
@@ -98,7 +104,10 @@ const getters = {
     },
     getTouristsMeta(state) {
         return state.touristsMeta;
-    }
+    },
+    getTouristsFilter(state) {
+        return state.touristsFilter;
+    },
 };
 
 export default {

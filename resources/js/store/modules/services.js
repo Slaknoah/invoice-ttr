@@ -4,6 +4,7 @@ const state = {
     services: [],
     servicesLinks: {},
     servicesMeta: {},
+    servicesFilter: {}
 };
 
 const mutations = {
@@ -33,7 +34,10 @@ const mutations = {
             let index = state.services.map( service => {return service.id}).indexOf(payload);
             state.services.splice(index, 1);
         }
-    }
+    },
+    SET_SERVICES_FILTER(state, payload) {
+        state.servicesFilter = payload;
+    },
 };
 
 const actions = {
@@ -49,6 +53,8 @@ const actions = {
                     commit('SET_SERVICES', res.data.data);
                     commit('SET_SERVICES_LINKS', res.data.links);
                     commit('SET_SERVICES_META', res.data.meta);
+                    commit('SET_SERVICES_FILTER', filter);
+
                     resolve(res.data.data);
                 })
                 .catch(error => reject(error));
@@ -98,6 +104,9 @@ const getters = {
     },
     getServicesMeta(state) {
         return state.servicesMeta;
+    },
+    getServicesFilter(state) {
+        return state.servicesFilter;
     }
 };
 

@@ -12,7 +12,7 @@ export default {
             filters: {},
             fetchJobName: '',
             deleteJobName: '',
-            updateJobName: ''
+            updateJobName: '',
         }
     },
     methods: {
@@ -69,6 +69,9 @@ export default {
         resourceMetas() {
             return [];
         },
+        storedFilters() {
+            return {};
+        },
         pageCount() {
             if(this.resourceMetas)
                 return Math.ceil(this.resourceMetas.total / this.resourceMetas.per_page);
@@ -94,6 +97,9 @@ export default {
             this.fetchResources();
             this.isFetching = true;
         }
+
+        if (this.storedFilters)
+            this.filters = {...this.storedFilters};
     },
     components: {
         ResourceFilter

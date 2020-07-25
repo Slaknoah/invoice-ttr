@@ -88,23 +88,28 @@
 import TouristForm from "./TouristForm";
 import TouristLoading from "../../components/Preloaders/TouristLoading";
 import listMixin from "../../mixins/listMixin";
+import {mapGetters} from "vuex";
 
 export default {
     data() {
         return {
             fetchJobName: 'fetchTourists',
-            deleteJobName: 'deleteTourist'
+            deleteJobName: 'deleteTourist',
         }
     },
     computed: {
-        storedResources() { return this.$store.getters.getTourists },
-        resourceMetas() { return this.$store.getters.getTouristsMeta },
+        ...mapGetters({
+            storedResources: 'getTourists',
+            resourceMetas: 'getTouristsMeta',
+            storedFilters: 'getTouristsFilter'
+        }),
         touristFilters() {
             return [
                 {
                     type: 'text',
                     name: 'search',
-                    label: 'Find tourist by name, email or telephone',
+                    label: this.$t('general.searchLabel'),
+                    value: this.filters.search
                 }
             ]
         }

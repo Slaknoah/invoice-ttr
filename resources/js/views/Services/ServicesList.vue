@@ -82,6 +82,7 @@
 import ServiceForm from "./ServiceForm";
 import ServiceLoading from "../../components/Preloaders/ServiceLoading";
 import listMixin from "../../mixins/listMixin";
+import {mapGetters} from "vuex";
 
 export default {
     data() {
@@ -91,14 +92,18 @@ export default {
         }
     },
     computed: {
-        storedResources() { return this.$store.getters.getServices },
-        resourceMetas() { return this.$store.getters.getServicesMeta },
+        ...mapGetters({
+            storedResources: 'getServices',
+            resourceMetas: 'getServicesMeta',
+            storedFilters: 'getServicesFilter'
+        }),
         serviceFilters() {
             return [
                 {
                     type: 'text',
                     name: 'search',
-                    label: 'Find service by name',
+                    label: this.$t('general.searchLabel'),
+                    value: this.filters.search
                 }
             ]
         }

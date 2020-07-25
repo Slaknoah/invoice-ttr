@@ -88,23 +88,28 @@
 import HotelForm from "./HotelForm";
 import HotelLoading from "../../components/Preloaders/HotelLoading";
 import listMixin from "../../mixins/listMixin";
+import {mapGetters} from "vuex";
 
 export default {
     data() {
         return {
             fetchJobName: 'fetchHotels',
-            deleteJobName: 'deleteHotel'
+            deleteJobName: 'deleteHotel',
         }
     },
     computed: {
-        storedResources() { return this.$store.getters.getHotels },
-        resourceMetas() { return this.$store.getters.getHotelsMeta },
+        ...mapGetters({
+            storedResources: 'getHotels',
+            resourceMetas: 'getHotelsMeta',
+            storedFilters: 'getHotelsFilter'
+        }),
         hotelFilters() {
             return [
                 {
                     type: 'text',
                     name: 'search',
-                    label: 'Find hotel by name',
+                    label: this.$t('general.searchLabel'),
+                    value: this.filters.search
                 }
             ]
         }

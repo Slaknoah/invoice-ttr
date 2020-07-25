@@ -1,4 +1,16 @@
 {
+    "general": {
+        "close_modal": "Close",
+        "add_item_btn": "Add",
+        "update_item_btn": "Update",
+        "choose_file": "Choose file",
+        "delete_btn": "Delete",
+        "edit_btn": "Edit",
+        "yes": "Yes",
+        "no": "No",
+        "searchLabel": "Search here",
+        "all": "All"
+    },
     "nav": {
         "dashboard": "Dashboard",
         "orders": "Orders",
@@ -71,14 +83,6 @@
         "forgot_pass_trigger": "Forgot Password?",
         "register_title": "Registration",
         "register_btn": "Register"
-    },
-    "general": {
-        "close_modal": "Close",
-        "add_item_btn": "Add",
-        "update_item_btn": "Update",
-        "choose_file": "Choose file",
-        "delete_btn": "Delete",
-        "edit_btn": "Edit"
     },
     "responses": {
         "unauthorized": "You are unauthorized to access this resource."

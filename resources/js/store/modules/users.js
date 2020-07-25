@@ -4,9 +4,7 @@ const state = {
     users: [],
     usersLinks: {},
     usersMeta: {},
-    usersFilter: {
-        role: 0,
-    },
+    usersFilter: {},
     currentPage: 1,
 };
 

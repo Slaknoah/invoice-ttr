@@ -2,13 +2,14 @@
   <div class="input-field" :class="parentClass">
     <slot name="bf-input"></slot>
     <select  :id="name" @change="change" v-bind="$attrs" >
-      <option value="">{{ notSelectedLabel }}</option>
+      <option value="">{{ notSelectedLabel || $t('general.all') }}</option>
       <option
         :value="option.value"
         v-for="(option, index) in options"
         :key="index"
-        :selected="selectedOption(option)"
-      >{{option.text}}</option>
+        :selected="selectedOption(option)">
+        {{option.text}}
+      </option>
     </select>
     <label :for="name">{{ label }}</label>
     <slot name="af-input"></slot>
@@ -32,7 +33,6 @@ export default {
         value: [String, Number],
         notSelectedLabel: {
           type: String,
-          default: "All"
         },
         options: {
           type: Array

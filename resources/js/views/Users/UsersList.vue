@@ -110,60 +110,60 @@ import listMixin from "../../mixins/listMixin";
 import UserLoading from "../../components/Preloaders/UserLoading";
 import UserForm from './UserForm';
 import UserView from './UserView';
+import {mapGetters} from "vuex";
 
 export default {
     data() {
         return {
             viewID: 'view-user',
             fetchJobName: 'fetchUsers',
-            deleteJobName: 'deleteUser'
+            deleteJobName: 'deleteUser',
         }
     },
     computed: {
-        storedResources() { return this.$store.getters.getUsers },
-        resourceMetas() { return this.$store.getters.getUsersMeta },
+        ...mapGetters({
+            storedResources: 'getUsers',
+            resourceMetas: 'getUsersMeta',
+            storedFilters: 'getUsersFilter'
+        }),
         userFilters() {
             return [
                 {
                     type: 'text',
                     name: 'search',
-                    label: 'Find user by name, email...',
+                    label: this.$t('general.searchLabel'),
+                    value: this.filters.search
                 },
                 {
                     type: 'select',
                     name: 'verified',
-                    label: 'Verified',
+                    label: this.$t('users.verified'),
                     options: [
                         {
                             value: 'yes',
-                            text: 'Yes'
+                            text: this.$t('general.yes')
                         },
                         {
                             value: 'no',
-                            text: 'No'
+                            text: this.$t('general.no')
                         }
                     ],
-                    value: null
+                    value: this.filters.verified
                 },
                 {
                     type: 'select',
                     name: 'role',
-                    label: 'Role',
+                    label: this.$t('users.role'),
                     options: this.$store.getters.getRoles.map(role => {
                             return {
                                 value: role.id,
                                 text: this.$capitalizeText(role.name)
                             }
-                        })
+                        }),
+                    value: this.filters.role
                 }
             ]
         },
-    },
-    created() {
-        if (this.$store.getters.getUsersFilter) {
-            // Copy dont reference filter so they can be modified caps of mutations
-            this.filters = {...this.$store.getters.getUsersFilter};
-        }
     },
     components: {
         UserForm,

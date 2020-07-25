@@ -4,6 +4,7 @@ const state = {
     hotels: [],
     hotelsLinks: {},
     hotelsMeta: {},
+    hotelsFilter: {}
 };
 
 const mutations = {
@@ -33,7 +34,10 @@ const mutations = {
             let index = state.hotels.map( hotel => {return hotel.id}).indexOf(payload);
             state.hotels.splice(index, 1);
         }
-    }
+    },
+    SET_HOTELS_FILTER(state, payload) {
+        Object.assign(state.hotelsFilter, payload);
+    },
 };
 
 const actions = {
@@ -48,6 +52,8 @@ const actions = {
                     commit('SET_HOTELS', res.data.data);
                     commit('SET_HOTELS_LINKS', res.data.links);
                     commit('SET_HOTELS_META', res.data.meta);
+                    commit('SET_HOTELS_FILTER', filter);
+
                     resolve(res.data.data);
                 })
                 .catch(error => reject(error));
@@ -97,6 +103,9 @@ const getters = {
     },
     getHotelsMeta(state) {
         return state.hotelsMeta;
+    },
+    getHotelsFilter(state) {
+        return state.hotelsFilter;
     }
 };
 

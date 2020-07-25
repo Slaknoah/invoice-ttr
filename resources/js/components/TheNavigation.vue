@@ -71,7 +71,7 @@
                             </li>
                         </template>
 
-                        <navigation-item to="javascript:void(0);" has-submenu>
+                        <navigation-item to="" has-submenu>
                             <template #route-content><span class="flag-icon" :class="currentLangFlag"></span></template>
 
                             <template v-slot:route-submenu>
