@@ -1,5 +1,5 @@
 require('./bootstrap');
-
+require('./vendor');
 window.Vue = require('vue');
 
 import VueCookies from "vue-cookies";

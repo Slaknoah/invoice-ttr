@@ -1,14 +1,6 @@
 <template>
     <div class="content">
         <div class="container">
-            <div class="row">
-                <div class="col s12 m6 l6">
-                    <h4 class="title">{{ $t('hotels.title') }}</h4>
-                </div>
-                <div class="col s12 m6 l6 right-align-md">
-                    <base-breadcrumb></base-breadcrumb>
-                </div>
-            </div>
             <resource-filter :filters="hotelFilters" @filtersChange="filterChanged"></resource-filter>
         </div>
         <div class="container frame">
@@ -76,11 +68,11 @@
                 </base-pagination>
             </transition>
         </div>
-        <hotel-form
-            :modalLink="modalID" 
-            :mode="currentFormMode"
-            :model="currentResource">
-        </hotel-form>
+<!--        <hotel-form-->
+<!--            :modalLink="modalID" -->
+<!--            :mode="currentFormMode"-->
+<!--            :model="currentResource">-->
+<!--        </hotel-form>-->
     </div>
 </template>
 
@@ -122,10 +114,6 @@ export default {
 }
 </script>
 
-<style scoped>
-    table {
-        width: 100%;
-    }
-    td:nth-child(1) { width: 30%;}
-    td:nth-child(2) { width: 60%;}
+<style scoped lang="scss">
+    @import "../../../sass/pages/hotels";
 </style>

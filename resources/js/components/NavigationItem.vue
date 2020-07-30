@@ -1,32 +1,48 @@
 <template>
-    <router-link :to="to" v-slot="{ href, navigate, isExactActive }">
-        <li :class="[isExactActive && 'active', hasSubmenu && 'dropdown-trigger']"
-            v-bind="$attrs"
-            :data-target="subMenuID">
-            <a :href="href" @click="navigate">
+    <router-link :to="to" v-slot="{ href, navigate, isExactActive }" v-if="isRouterLink">
+        <li :class="[isExactActive && 'active']"
+            v-bind="$attrs">
+            <a :class="[isExactActive && 'active', linkClass, hasSubmenu && 'collapsible-header']"
+               :href="href"
+               @click="navigate">
                 <slot name="route-content"></slot>
             </a>
 
-            <ul class="dropdown-content" v-if="hasSubmenu" :id="subMenuID">
-                <slot name="route-submenu">
-                </slot>
-            </ul>
+            <div class="collapsible-body" v-if="hasSubmenu">
+                <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                    <slot name="route-submenu"></slot>
+                </ul>
+            </div>
         </li>
     </router-link>
+    <li class="bold"
+        v-else
+        v-bind="$attrs">
+        <a class="waves-effect waves-cyan "
+           :class="[linkClass, hasSubmenu && 'collapsible-header']"
+           href="JavaScript:void(0)">
+            <slot name="route-content"></slot>
+        </a>
+
+        <div class="collapsible-body" v-if="hasSubmenu">
+            <ul class="collapsible collapsible-sub" data-collapsible="accordion">
+                <slot name="route-submenu"></slot>
+            </ul>
+        </div>
+    </li>
 </template>
 
 <script>
     export default  {
         inheritAttrs: false,
-        data() {
-            return {
-                subMenuID: Math.floor(Math.random() *  99999)
-            }
-        },
         props: {
             to: [Object, String],
-            text: String,
-            hasSubmenu: Boolean
+            hasSubmenu: Boolean,
+            linkClass: String,
+            isRouterLink: {
+                type: Boolean,
+                default: true
+            }
         }
     }
 </script>

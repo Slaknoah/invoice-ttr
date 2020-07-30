@@ -13,5 +13,18 @@
     "/resetpassword.js": "/resetpassword.js",
     "/resetpassword~touristslist.js": "/resetpassword~touristslist.js",
     "/touristslist.js": "/touristslist.js",
-    "/vendors~resetpassword~touristslist.js": "/vendors~resetpassword~touristslist.js"
+    "/vendors~resetpassword~touristslist.js": "/vendors~resetpassword~touristslist.js",
+    "/dashboard-statistics.js": "/dashboard-statistics.js",
+    "/forgot-password.js": "/forgot-password.js",
+    "/hotels-list.js": "/hotels-list.js",
+    "/hotels-list~reset-password~services-list~tourists-list.js": "/hotels-list~reset-password~services-list~tourists-list.js",
+    "/invoice-create.js": "/invoice-create.js",
+    "/invoice-list.js": "/invoice-list.js",
+    "/reset-password.js": "/reset-password.js",
+    "/services-list.js": "/services-list.js",
+    "/tourists-list.js": "/tourists-list.js",
+    "/vendors~hotels-list~reset-password~services-list~tourists-list.js": "/vendors~hotels-list~reset-password~services-list~tourists-list.js",
+    "/hotels-list~services-list~tourists-list~users-list.js": "/hotels-list~services-list~tourists-list~users-list.js",
+    "/users-list.js": "/users-list.js",
+    "/vendors~hotels-list~services-list~tourists-list~users-list.js": "/vendors~hotels-list~services-list~tourists-list~users-list.js"
 }

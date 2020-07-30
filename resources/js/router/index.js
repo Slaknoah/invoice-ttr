@@ -1,28 +1,25 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import NProgress from "nprogress";
 import i18n from '../bootstrap/i18n';
 
 const Login = () => import(/* webpackChunkName: "login" */  "../views/Auth/Login");
 const Register = () => import(/* webpackChunkName: "register" */  "../views/Auth/Register");
 const Logout = () => import(/* webpackChunkName: "logout" */  "../views/Auth/Logout");
-const ForgotPassword = () => import(/* webpackChunkName: "forgotpassword" */  "../views/Auth/ForgotPassword");
-const ResetPassword = () => import(/* webpackChunkName: "resetpassword" */  "../views/Auth/ResetPassword");
+const ForgotPassword = () => import(/* webpackChunkName: "forgot-password" */  "../views/Auth/ForgotPassword");
+const ResetPassword = () => import(/* webpackChunkName: "reset-password" */  "../views/Auth/ResetPassword");
 
-const Users = () => import(/* webpackChunkName: "resetpassword" */  "../views/Users/UsersList");
+const Users = () => import(/* webpackChunkName: "users-list" */  "../views/Users/UsersList");
 
-const DashboardStatistics = () => import(/* webpackChunkName: "dashboardstatistics" */  "../views/DashboardStatistics");
-const InvoicesList = () => import(/* webpackChunkName: "invoicelist" */  "../views/Orders/OrdersList");
-const InvoiceCreate = () => import(/* webpackChunkName: "invoicecreate" */  "../views/Orders/OrdersCreate");
-const TouristsList = () => import(/* webpackChunkName: "touristslist" */  "../views/Tourists/TouristsList");
-const HotelsList = () => import(/* webpackChunkName: "touristslist" */  "../views/Hotels/HotelsList");
-const ServicesList = () => import(/* webpackChunkName: "touristslist" */  "../views/Services/ServicesList");
+const DashboardStatistics = () => import(/* webpackChunkName: "dashboard-statistics" */  "../views/DashboardStatistics");
+const InvoicesList = () => import(/* webpackChunkName: "invoice-list" */  "../views/Orders/OrdersList");
+const InvoiceCreate = () => import(/* webpackChunkName: "invoice-create" */  "../views/Orders/OrdersCreate");
+const TouristsList = () => import(/* webpackChunkName: "tourists-list" */  "../views/Tourists/TouristsList");
+const HotelsList = () => import(/* webpackChunkName: "hotels-list" */  "../views/Hotels/HotelsList");
+const ServicesList = () => import(/* webpackChunkName: "services-list" */  "../views/Services/ServicesList");
 const NotFound = () => import(/* webpackChunkName: "notfound" */  "../views/404");
 const Profile = () => import(/* webpackChunkName: "profile" */  "../views/Profile");
 
 Vue.use(VueRouter);
-
-NProgress.configure({ easing: 'ease-in', speed: 500, showSpinner: false, trickleSpeed: 200  });
 
 const localizedRoutes = [
     {
@@ -38,7 +35,8 @@ const localizedRoutes = [
         name: "login",
         component: Login,
         meta: {
-            guest: true
+            guest: true,
+            transition: 'fade'
         }
     },
     {
@@ -70,7 +68,8 @@ const localizedRoutes = [
         name: "logout",
         component: Logout,
         meta: {
-            requiresAuth: true
+            requiresAuth: true,
+            transition: 'fade'
         }
     },
     {
@@ -91,25 +90,30 @@ const localizedRoutes = [
         component: Profile,
         meta: {
             requiresAuth: true,
+            breadCrumb: "User profile",
         }
     },
     {
-        path: "orders",
-        name: "orders",
+        path: "invoices",
+        name: "invoice_list",
         component: InvoicesList,
         meta: {
             requiresAuth: true,
-            isManager: true
-        }
-    },
-    {
-        path: "orders/create",
-        name: "create_order",
-        component: InvoiceCreate,
-        meta: {
-            requiresAuth: true,
-            isManager: true
-        }
+            isManager: true,
+            breadCrumb: "Invoices",
+        },
+        children: [
+            {
+                path: "add",
+                name: "invoice_add",
+                component: InvoiceCreate,
+                meta: {
+                    requiresAuth: true,
+                    isManager: true,
+                    breadCrumb: "Add invoice",
+                }
+            }
+        ]
     },
     {
         path: "tourists",
@@ -174,9 +178,6 @@ const router = new VueRouter({
 
 
 router.beforeEach((to, from, next) => {
-    if(to.name) {
-        NProgress.start();
-    }
     // use the language from the routing param or default language
     let language = to.params.lang;
 
@@ -199,21 +200,19 @@ router.beforeEach((to, from, next) => {
             let user = window.$cookies.get("auth_user");
 
             if (to.matched.some(record => record.meta.isAdmin)) {
-                if (user.role.name == "administrator") {
+                if (user.role.name === "administrator") {
                     next();
                 } else {
                     M.toast({html: i18n.tc('responses.unauthorized')});
                     next({ name: "dashboard", lang: language });
-                    NProgress.done();
                 }
             }
             else if (to.matched.some(record => record.meta.isManager)) {
-                if (user.role.name == "administrator" || user.role.name == "manager") {
+                if (user.role.name === "administrator" || user.role.name === "manager") {
                     next();
                 } else {
                     M.toast({html: i18n.tc('responses.unauthorized')});
                     next({ name: "dashboard", lang: language });
-                    NProgress.done();
                 }
             }
             else {
@@ -229,10 +228,6 @@ router.beforeEach((to, from, next) => {
     } else {
         next();
     }
-});
-
-router.afterEach((to, from) => {
-    NProgress.done();
 });
 
 export default router;

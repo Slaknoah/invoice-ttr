@@ -11,8 +11,10 @@ export default {
                 M.toast({html: res.data.message});
                 this.$router.push({ name: 'login'} );
             }).catch(err => {
-                this.$router.push({ name: 'login'} );
-                M.toast({html: err.response.data.message });
+                if(err.length) {
+                    this.$router.push({ name: 'login'} );
+                    M.toast({html: err.response.data.message });
+                }
             });
     }
 }

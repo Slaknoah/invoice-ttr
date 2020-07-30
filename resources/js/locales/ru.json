@@ -11,6 +11,10 @@
         "searchLabel": "Search here",
         "all": "Bce"
     },
+    "lang": {
+        "english": "Anglickii",
+        "russian": "Russkii"
+    },
     "nav": {
         "statistics": "Статистика",
         "orders": "Заявки",

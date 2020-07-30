@@ -1,9 +1,13 @@
 
 window._ = require('lodash');
 
+import PerfectScrollbar from 'perfect-scrollbar';
+
 try {
     window.$ = window.jQuery = require('jquery');
     window.M = require('materialize-css');
+
+    window.PerfectScrollbar = PerfectScrollbar;
 } catch (e) { console.log(e) }
 
 window.axios = require('axios');

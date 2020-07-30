@@ -1,14 +1,6 @@
 <template>
     <div class="content">
         <div class="container">
-            <div class="row">
-                <div class="col s12 m6 l6">
-                    <h4 class="title">{{ $t('services.title') }}</h4>
-                </div>
-                <div class="col s12 m6 l6 right-align-md">
-                    <base-breadcrumb></base-breadcrumb>
-                </div>
-            </div>
             <resource-filter :filters="serviceFilters" @filtersChange="filterChanged"></resource-filter>
         </div>
         <div class="container frame">
@@ -70,11 +62,11 @@
                 </base-pagination>
             </transition>
         </div>
-        <service-form
-            :modalLink="modalID" 
-            :mode="currentFormMode"
-            :model="currentResource">
-        </service-form>
+<!--        <service-form-->
+<!--            :modalLink="modalID" -->
+<!--            :mode="currentFormMode"-->
+<!--            :model="currentResource">-->
+<!--        </service-form>-->
     </div>
 </template>
 

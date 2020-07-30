@@ -91,17 +91,17 @@
                 </base-pagination>
             </transition>
         </div>
-        <user-view
-                :viewLink="viewID"
-                :model="currentResource"
-                :editLink="modalID"
-                @editUser="editResource">
-        </user-view>
-        <user-form
-            :modalLink="modalID"
-            :mode="currentFormMode"
-            :model="currentResource">
-        </user-form>
+<!--        <user-view-->
+<!--                :viewLink="viewID"-->
+<!--                :model="currentResource"-->
+<!--                :editLink="modalID"-->
+<!--                @editUser="editResource">-->
+<!--        </user-view>-->
+<!--        <user-form-->
+<!--            :modalLink="modalID"-->
+<!--            :mode="currentFormMode"-->
+<!--            :model="currentResource">-->
+<!--        </user-form>-->
     </div>
 </template>
 

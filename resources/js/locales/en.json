@@ -13,15 +13,25 @@
     },
     "nav": {
         "dashboard": "Dashboard",
-        "orders": "Orders",
-        "create_order": "Create order",
+        "invoice": "Invoices",
+        "invoice_add": "Add Invoice",
+        "invoice_list": "Invoice list",
         "tourists": "Tourists",
         "hotels": "Hotels",
+        "hotels_list": "Hotels list",
+        "hotels_status": "Hotels status",
+        "hotels_reservation": "Hotels reservation",
         "services": "Services",
         "login": "Login",
         "register": "Register",
         "users": "Users",
+        "users_list": "Users list",
+        "users_add":"Add user",
         "profile": "Profile"
+    },
+    "lang": {
+        "english": "English",
+        "russian": "Russian"
     },
     "profile": {
         "title": "Profile",
@@ -78,11 +88,12 @@
         "login_title": "Sign in",
         "email": "E-mail",
         "name": "Username",
+        "logout": "Logout",
         "pass": "Password",
         "login_btn": "Login",
         "forgot_pass_trigger": "Forgot Password?",
         "register_title": "Registration",
-        "register_btn": "Register"
+        "register_btn": "Register now!"
     },
     "responses": {
         "unauthorized": "You are unauthorized to access this resource."

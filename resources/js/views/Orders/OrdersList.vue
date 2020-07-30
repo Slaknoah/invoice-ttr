@@ -1,14 +1,6 @@
 <template>
     <div class="content">
         <div class="container">
-            <div class="row">
-                <div class="col s12 m6 l6">
-                    <h4 class="title">{{ $t('orders.title') }}</h4>
-                </div>
-                <div class="col s12 m6 l6 right-align-md">
-                    <BaseBreadcrumb/>
-                </div>
-            </div>
         </div>
         <div class="container frame">
             <table class="editable">
@@ -26,7 +18,6 @@
                     <tbody  class="loading">
                     <tr >
                         <td colspan="5">
-                            <TouristLoading/>
                         </td>
                     </tr>
                     </tbody>
