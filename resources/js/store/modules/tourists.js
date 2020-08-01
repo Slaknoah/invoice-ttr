@@ -66,7 +66,7 @@ const actions = {
                 .post('/tourists', parameters)
                 .then(res => {
                     commit("ADD_NEW_TOURIST", res.data.response);
-                    resolve(res.data.message);
+                    resolve(res.data);
                 })
                 .catch(error => reject(error));
         })

@@ -25,6 +25,8 @@
     },
     "dependencies": {
         "ajv": "^6.12.2",
+        "datatables.net": "^1.10.21",
+        "datatables.net-responsive": "^2.2.5",
         "fibers": "^4.0.3",
         "flag-icon-css": "^3.5.0",
         "gsap": "^3.3.1",

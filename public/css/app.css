@@ -17632,6 +17632,399 @@ table.bordered td {
 }
 
 /*----------------------------------------
+Cards
+------------------------------------------*/
+
+.card {
+  margin: 1rem 0 1rem 0;
+}
+
+.card .card-title {
+  margin: 0;
+  font-weight: 400;
+  font-size: 18px;
+}
+
+.card .activator {
+  cursor: pointer;
+}
+
+.card .card-action {
+  overflow: hidden;
+}
+
+#card-stats .card-content {
+  text-align: center;
+}
+
+#card-stats .card-stats-title {
+  font-size: 1rem;
+}
+
+#card-stats .card-stats-title i {
+  font-size: 1.2rem;
+  top: 3px;
+  position: relative;
+}
+
+#card-stats .card-stats-compare {
+  font-size: 0.85rem;
+}
+
+#card-stats .card-stats-compare i {
+  position: relative;
+  top: 8px;
+}
+
+#card-stats .card-stats-number {
+  font-size: 1.8rem;
+  line-height: 2rem;
+  margin: 0.8rem 0 0.6rem 0;
+  font-weight: 600;
+}
+
+#card-stats .card .card-content {
+  padding: 10px 14px;
+}
+
+#card-stats .card .card-action {
+  padding: 10px 14px;
+  overflow: hidden;
+}
+
+.vertical-align-top {
+  vertical-align: top;
+}
+
+.card-animation-1,
+.image-n-margin {
+  margin-top: -50px;
+  /* Safari */
+  transition: 0.5s;
+}
+
+.card-animation-1:hover .image-n-margin {
+  margin-top: -80px;
+  margin-bottom: 30px;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+/* alert card */
+
+.card-alert .card-content {
+  padding: 10px 20px;
+}
+
+.card-alert i {
+  font-size: 20px;
+  position: relative;
+  top: -1px;
+  vertical-align: middle;
+}
+
+.card-alert .alert-circle {
+  display: inline-block;
+  width: 40px;
+  white-space: nowrap;
+  border-radius: 1000px;
+  vertical-align: bottom;
+  position: relative;
+  top: 0;
+  left: -2px;
+}
+
+.card-alert .single-alert {
+  line-height: 42px;
+}
+
+.card-alert button {
+  background: none;
+  border: none;
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  font-size: 20px;
+  color: #fff;
+}
+
+.card-alert .card .card-content {
+  padding: 20px 40px 20px 20px;
+}
+
+.card-alert .card-action i {
+  top: 0;
+  margin: 0;
+}
+
+/* work card */
+
+#work-collections .collection-header {
+  font-size: 1.14rem;
+  font-weight: 500;
+}
+
+#work-collections p.collections-title {
+  font-size: 1rem;
+  padding: 0;
+  margin: 0;
+  font-weight: 500;
+}
+
+#work-collections p.collections-content {
+  font-size: 0.9rem;
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+}
+
+#work-collections .collection-item.avatar {
+  height: auto;
+  padding-top: 22px;
+}
+
+/* flight card */
+
+#flight-card .flight-card-title {
+  margin: 0;
+  font-weight: 300;
+  color: #fff;
+}
+
+#flight-card .flight-card-date {
+  font-size: 1rem;
+  margin: 0;
+  color: #fff;
+}
+
+#flight-card .flight-state {
+  padding-bottom: 15px;
+}
+
+#flight-card .flight-state-two {
+  border-left: 1px dashed #bdbdbd;
+}
+
+#flight-card .flight-icon {
+  font-size: 2.2rem;
+  display: block;
+  -webkit-transform: rotate(90deg);
+  -moz-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  -o-transform: rotate(90deg);
+}
+
+#flight-card .card-content-bg {
+  background: url(/images/3.png?a8acab001a7c2bf3af7bcd32fc1a0e19) no-repeat center center;
+  background-size: cover;
+}
+
+#flight-card .card-content {
+  background: rgba(0, 0, 0, 0.25);
+}
+
+#flight-card .flight-state-wrapper {
+  margin: 0 0 80px 0 !important;
+}
+
+#flight-card .card-header .card-title {
+  padding: 20px;
+}
+
+/* task card */
+
+#task-card label {
+  display: block;
+  color: rgba(0, 0, 0, 0.87);
+  height: auto;
+}
+
+#task-card .task-card-title {
+  margin: 0;
+  color: #fff;
+  font-weight: 300;
+}
+
+#task-card .task-card-date {
+  font-size: 1rem;
+  margin: 0;
+  color: #fff;
+}
+
+#task-card .collection-header {
+  padding: 20px;
+}
+
+#task-card .task-add {
+  position: absolute;
+  right: 10px;
+  top: 76px;
+}
+
+#task-card .task-cat {
+  padding: 2px 4px;
+  color: #fff;
+  margin-left: 37px;
+  font-weight: 300;
+  font-size: 0.8rem;
+  border-radius: 2px;
+  background-clip: padding-box;
+}
+
+.task-cat {
+  padding: 2px 4px;
+  color: #fff;
+  font-weight: 300;
+  font-size: 0.8rem;
+  border-radius: 2px;
+  background-clip: padding-box;
+}
+
+.collection .collection-item.avatar i.circle {
+  font-size: 28px;
+}
+
+/* profile card */
+
+#profile-card .card-image {
+  height: 150px;
+}
+
+#profile-card .card-profile-image {
+  width: 70px;
+  position: absolute;
+  top: 110px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+#profile-card .btn-move-up {
+  position: relative;
+  top: -40px;
+  right: -18px;
+  margin-right: 10px !important;
+}
+
+#profile-card .card-content .profile-card-i {
+  position: relative;
+  top: 6px;
+  margin-right: 10px;
+}
+
+#profile-card .card-content p {
+  font-size: 1rem;
+  margin: 10px 0 12px;
+}
+
+.card-move-up .move-up {
+  padding: 20px;
+}
+
+.black-overlay {
+  background-color: rgba(0, 0, 0, 0.42) !important;
+}
+
+.bg-image-1 {
+  background-image: url(/images/macbook.png?2d07ebdacda7cb371f18925edcf69a54);
+  width: 100%;
+  background-size: cover;
+}
+
+.bg-image-2 {
+  background-image: url(/images/iphone.png?9352a4eb3d01d0d0e3962173153750d5);
+  width: 100%;
+  background-size: cover;
+}
+
+.bg-image-3 {
+  background-image: url(/images/applewatch.png?5d2183902dbaa305529428e69b923cf3);
+  width: 100%;
+  background-size: cover;
+}
+
+.icon-background {
+  margin: 8px;
+  height: 50px;
+  width: 50px;
+  padding-top: 11px;
+}
+
+#profile-card .card-reveal i.material-icons {
+  position: relative;
+  top: 6px;
+}
+
+#user-card .flip-card {
+  max-width: 100%;
+}
+
+@media screen and (min-width: 1290px) {
+  .icon-background {
+    margin: 1.25rem;
+    height: 3.125rem;
+    width: 3.125rem;
+    padding-top: 0.6875rem;
+    margin-left: 2rem;
+  }
+}
+
+@media screen and (max-width: 1366px) {
+  .icon-background {
+    margin-left: 1.25rem;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .icon-background {
+    margin-left: 2rem;
+  }
+}
+
+@media screen and (min-width: 1680px) {
+  .icon-background {
+    margin-left: 2.6875rem;
+  }
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1365px) {
+  .icon-background {
+    margin-left: 0.25rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .icon-background {
+    margin-left: 1.875rem;
+  }
+}
+
+@media screen and (max-width: 786px) {
+  .icon-background {
+    margin-left: 0.9375rem;
+  }
+}
+
+@media screen and (max-width: 540px) {
+  .icon-background {
+    margin-left: 0.625rem;
+  }
+}
+
+.small-ico-bg {
+  padding: 6px;
+  background-color: #f3f1f1;
+  border-radius: 50%;
+}
+
+@media only screen and (min-device-width: 1024px) and (max-device-width: 1366px) {
+  #cards-extended #gradient-Analytics .card-width,
+  #cards-extended #card-with-analytics .card-width,
+  #cards-extended #card-panel-type .card-width {
+    width: 50%;
+  }
+}
+
+/*----------------------------------------
     Charts
 ------------------------------------------*/
 
@@ -20515,5 +20908,182 @@ tr.group:hover {
 
 .flag-icon-xk.flag-icon-squared {
   background-image: url(/images/vendor/flag-icon-css/flags/1x1/xk.svg?bd62029ec779b30b2ac80989dc285ae9);
+}
+
+.list {
+  -webkit-backface-visibility: hidden;
+          backface-visibility: hidden;
+  z-index: 1;
+}
+
+.list-move {
+  transition: all 600ms ease-in-out 50ms;
+}
+
+.list-enter-active {
+  transition: all 400ms ease-out;
+}
+
+.list-leave-active {
+  transition: all 200ms ease-in;
+  position: absolute;
+  z-index: 0;
+}
+
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+}
+
+@-webkit-keyframes fadeOutDown {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 100px, 0);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 100px, 0);
+  }
+}
+
+.fade-in-up-leave-to {
+  opacity: 0;
+  transition: opacity .3s;
+  -webkit-animation-duration: .7s;
+          animation-duration: .7s;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  -webkit-animation-name: fadeOutDown;
+          animation-name: fadeOutDown;
+}
+
+@-webkit-keyframes fade-right {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-right {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fade-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+@keyframes fade-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+.list-item-enter-active {
+  -webkit-animation: fade-right .3s ease-out forwards;
+          animation: fade-right .3s ease-out forwards;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  transition: transform 200ms cubic-bezier(0.4, 0.25, 0.3, 1), opacity 200ms cubic-bezier(0.4, 0.25, 0.3, 1);
+}
+
+.list-item-leave-active {
+  -webkit-animation: fade-left .3s ease-out forwards;
+          animation: fade-left .3s ease-out forwards;
+  -webkit-animation-fill-mode: both;
+          animation-fill-mode: both;
+  transition: transform 200ms cubic-bezier(0.4, 0.25, 0.3, 1), opacity 200ms cubic-bezier(0.4, 0.25, 0.3, 1);
+}
+
+.list-item-leave-to {
+  opacity: 0;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  transition: opacity .3s;
+}
+
+.fade-leave-active {
+  transition: opacity .1s;
+  opacity: 0;
+}
+
+tbody.loading tr:nth-of-type(2) {
+  opacity: 0.76;
+}
+
+tbody.loading tr:nth-of-type(3) {
+  opacity: 0.52;
+}
+
+tbody.loading tr:nth-of-type(4) {
+  opacity: 0.28;
+}
+
+tbody.loading tr:nth-of-type(5) {
+  opacity: 0.04;
+}
+
+tbody.loading tr:nth-of-type(6) {
+  opacity: -0.2;
+}
+
+tbody.loading tr:nth-of-type(7) {
+  opacity: -0.44;
+}
+
+tbody.loading tr:nth-of-type(8) {
+  opacity: -0.68;
+}
+
+tbody.loading tr:nth-of-type(9) {
+  opacity: -0.92;
+}
+
+tbody.loading tr:nth-of-type(10) {
+  opacity: -1.16;
+}
+
+tbody.loading tr:nth-of-type(11) {
+  opacity: -1.4;
 }
 

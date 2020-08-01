@@ -11,6 +11,6 @@ class TouristsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Tourist::class, 4)->create();
+        factory(App\Tourist::class, 20)->create();
     }
 }

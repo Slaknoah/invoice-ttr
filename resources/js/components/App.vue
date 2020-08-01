@@ -511,13 +511,6 @@
     <!--                            </ul>-->
                             </aside>
                             <!-- END RIGHT SIDEBAR NAV -->
-                            <transition name="fade">
-                                <div style="bottom: 50px; right: 19px;" class="fixed-action-btn" v-if="hasFloatingBtn">
-                                    <a :href="modalID" @click="triggerModal" class="btn-floating btn-large gradient-45deg-light-blue-cyan gradient-shadow">
-                                        <i class="material-icons">add</i>
-                                    </a>
-                                </div>
-                            </transition>
                         </div>
                         <div class="content-overlay"></div>
                     </div>
@@ -534,7 +527,7 @@
             </footer>
         </div>
 
-        <div class="1-column login-bg blank-page" key="logged-out" v-bind:style="{backgroundImage: 'url(' + loginImage + ')' }" v-else>
+        <div class="1-column auth-bg blank-page" key="logged-out" v-bind:style="{backgroundImage: 'url(' + loginImage + ')' }" v-else>
             <div class="row">
                 <div class="col s12">
                     <router-view></router-view>
@@ -547,9 +540,9 @@
 
 <script>
 import TheHeader from "./TheHeader";
-import { EventBus } from '../event-bus';
 import TheNavigation from "./TheNavigation";
 import {mapGetters} from "vuex";
+
 export default {
     name: 'App',
     data() {
@@ -562,7 +555,6 @@ export default {
         TheNavigation
     },
     methods: {
-        triggerModal() { EventBus.$emit('ADD_MODAL_TRIGGERED') },
         initAppUI() {
             const sidenavMain = $(".sidenav-main"),
                 contentOverlay = $(".content-overlay"),
@@ -1085,9 +1077,7 @@ export default {
         ...mapGetters([
             'isLoggedIn',
             'getAuthUser'
-        ]),
-        hasFloatingBtn() { return this.$route.meta.hasFloatingBtn; },
-        modalID() { return '#' + this.$route.meta.modalID; }
+        ])
     },
     created() {
         /**
@@ -1103,9 +1093,11 @@ export default {
     watch: {
         isLoggedIn(newValue) {
             if(newValue) {
-                this.$nextTick(() => {
-                    this.initAppUI();
-                });
+                setTimeout(() => {
+                    this.$nextTick(() => {
+                        this.initAppUI();
+                    });
+                }, 1000);
             }
         }
     }
@@ -1113,12 +1105,28 @@ export default {
 </script>
 
 
-<style>
+<style lang="scss">
     .load-enter-active, .load-leave-active {
         transition: opacity .5s ease;
     }
 
     .load-enter, .load-leave-to {
         opacity: 0;
+    }
+
+    .auth-bg{
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .auth-page {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .page-footer.footer-fixed {
+        z-index: 2;
     }
 </style>

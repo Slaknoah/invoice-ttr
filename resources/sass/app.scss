@@ -5,3 +5,107 @@
 @import "themes/vertical-modern-menu-template/style";
 @import "../../node_modules/flag-icon-css/sass/flag-icon";
 @import "../../node_modules/perfect-scrollbar/css/perfect-scrollbar.css";
+
+
+.list {
+  backface-visibility: hidden;
+  z-index: 1;
+}
+
+.list-move {
+  transition: all 600ms ease-in-out 50ms;
+}
+
+.list-enter-active {
+  transition: all 400ms ease-out;
+}
+
+.list-leave-active {
+  transition: all 200ms ease-in;
+  position: absolute;
+  z-index: 0;
+}
+
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+}
+
+@keyframes fadeOutDown {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(0, 100px, 0);
+  }
+}
+
+.fade-in-up-leave-to {
+  opacity: 0;
+  transition: opacity .3s;
+  animation-duration: .7s;
+  animation-fill-mode: both;
+  animation-name: fadeOutDown;
+}
+
+@keyframes fade-right {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-left {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+.list-item-enter-active {
+  animation: fade-right .3s ease-out forwards;
+  animation-fill-mode: both;
+  transition: transform 200ms cubic-bezier(0.4, 0.25, 0.3, 1), opacity 200ms cubic-bezier(0.4, 0.25, 0.3, 1);
+}
+
+.list-item-leave-active {
+  animation: fade-left .3s ease-out forwards;
+  animation-fill-mode: both;
+  transition: transform 200ms cubic-bezier(0.4, 0.25, 0.3, 1), opacity 200ms cubic-bezier(0.4, 0.25, 0.3, 1);
+}
+
+.list-item-leave-to {
+  opacity: 0;
+}
+
+// Fade transition
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-active {
+  transition: opacity .3s;
+}
+
+.fade-leave-active {
+  transition: opacity .1s;
+  opacity: 0;
+}
+
+
+$total-items: 10;
+
+// Set delay per List Item
+@for $i from 1 through $total-items {
+  tbody.loading tr:nth-of-type(#{$i + 1})  {
+    opacity: (1 - (0.24 * $i));
+  }
+}

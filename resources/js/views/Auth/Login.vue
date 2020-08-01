@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <div id="login-page" class="row">
+        <div id="login-page" class="row auth-page">
             <div class="col s12 m6 l4 z-depth-4 card-panel border-radius-6 login-card bg-opacity-8">
                 <form class="login-form" action="" @submit.prevent="login">
                     <div class="row">
@@ -44,12 +44,12 @@
                     <div class="row">
                         <div class="input-field col s6 m6 l6">
                             <p class="margin medium-small">
-                                <router-link :to="{ name: 'register'}">{{ $t("auth.register_btn") }}</router-link>
+                                <router-link :to="{ name: 'register'}">{{ $t("auth.go_to_register") }}</router-link>
                             </p>
                         </div>
                         <div class="input-field col s6 m6 l6">
                             <p class="margin right-align medium-small">
-                                <router-link :to="{ name: 'forgot-password'}">{{ $t("auth.forgot_pass_trigger") }}</router-link>
+                                <router-link :to="{ name: 'forgot-password'}">{{ $t("auth.go_to_forgot") }}</router-link>
                             </p>
                         </div>
                     </div>
@@ -85,17 +85,7 @@
 </script>
 
 <style lang="scss">
-    .login-bg{
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-
     #login-page{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-
         .card-panel.border-radius-6.login-card{
             margin-left: 0 !important;
         }

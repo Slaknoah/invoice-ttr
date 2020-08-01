@@ -9,7 +9,8 @@
         "yes": "Yes",
         "no": "No",
         "searchLabel": "Search here",
-        "all": "All"
+        "all": "All",
+        "id": "ID"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -17,6 +18,7 @@
         "invoice_add": "Add Invoice",
         "invoice_list": "Invoice list",
         "tourists": "Tourists",
+        "tourist_add": "Add tourist",
         "hotels": "Hotels",
         "hotels_list": "Hotels list",
         "hotels_status": "Hotels status",
@@ -86,14 +88,22 @@
     },
     "auth": {
         "login_title": "Sign in",
+        "forgot_title": "Reset password",
+        "forgot_btn": "Send reset link",
+        "reset_title": "Set new password",
+        "reset_btn": "Save password",
+        "pass_confirm": "Confirm password",
         "email": "E-mail",
         "name": "Username",
         "logout": "Logout",
         "pass": "Password",
         "login_btn": "Login",
-        "forgot_pass_trigger": "Forgot Password?",
+        "register_btn": "Login",
+        "go_to_forgot": "Forgot Password?",
         "register_title": "Registration",
-        "register_btn": "Register now!"
+        "register_subtitle": "Start using Invy now!",
+        "go_to_register": "Register now!",
+        "go_to_login": "Already have an account? Login"
     },
     "responses": {
         "unauthorized": "You are unauthorized to access this resource."

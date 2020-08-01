@@ -11,14 +11,16 @@
                         </li>
                     </ol>
                 </div>
-                <div class="col s2 m6 l6"><a class="btn dropdown-settings waves-effect waves-light breadcrumbs-btn right" href="#!" data-target="dropdown1"><i class="material-icons hide-on-med-and-up">settings</i><span class="hide-on-small-onl">Settings</span><i class="material-icons right">arrow_drop_down</i></a>
-                    <ul class="dropdown-content" id="dropdown1" tabindex="0">
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="user-profile-page.html">Profile<span class="new badge red">2</span></a></li>
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="app-contacts.html">Contacts</a></li>
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="page-faq.html">FAQ</a></li>
-                        <li class="divider" tabindex="-1"></li>
-                        <li tabindex="0"><a class="grey-text text-darken-2" href="user-login.html">Logout</a></li>
-                    </ul>
+                <div class="col s2 m6 l6">
+                    <transition name="fade">
+                        <a :href="modalID"
+                           class="display-flex align-items-center btn waves-effect waves-light border-round z-depth-4 breadcrumbs-btn right sidenav-trigger"
+                           v-if="hasFloatingBtn"
+                           @click="triggerModal">
+                            <i class="material-icons">add</i>
+                            <span class="hide-on-small-only">{{ btnTitle }}</span>
+                        </a>
+                    </transition>
                 </div>
             </div>
         </div>
@@ -27,6 +29,8 @@
 
 
 <script>
+import { EventBus } from '../event-bus';
+
 export default {
     computed: {
         crumbs() {
@@ -58,7 +62,13 @@ export default {
             }
 
             return breadcrumbs;
-        }
+        },
+        hasFloatingBtn() { return this.$route.meta.hasFloatingBtn; },
+        btnTitle() { return this.$route.meta.btnTitle; },
+        modalID() { return '#' + this.$route.meta.modalID; }
+    },
+    methods: {
+        triggerModal() { EventBus.$emit('ADD_MODAL_TRIGGERED') }
     }
 }
 </script>

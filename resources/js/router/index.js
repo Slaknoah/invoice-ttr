@@ -36,7 +36,7 @@ const localizedRoutes = [
         component: Login,
         meta: {
             guest: true,
-            transition: 'fade'
+            transition: 'flip-y'
         }
     },
     {
@@ -44,7 +44,8 @@ const localizedRoutes = [
         name: "forgot-password",
         component: ForgotPassword,
         meta: { 
-            guest: true
+            guest: true,
+            transition: 'flip-y'
          }
     },
     {
@@ -52,7 +53,8 @@ const localizedRoutes = [
         name: "reset-password",
         component: ResetPassword,
         meta: { 
-            guest: true
+            guest: true,
+            transition: 'flip-x'
         }
     },
     {
@@ -60,7 +62,8 @@ const localizedRoutes = [
         name: "register",
         component: Register,
         meta: { 
-            guest: true
+            guest: true,
+            transition: 'flip-y'
         }
     },
     {
@@ -123,6 +126,7 @@ const localizedRoutes = [
             requiresAuth: true,
             isManager: true,
             hasFloatingBtn: true,
+            btnTitle: i18n.tc('nav.tourist_add'),
             modalID: 'add_tourist',
             breadCrumb: "Tourists",
         }

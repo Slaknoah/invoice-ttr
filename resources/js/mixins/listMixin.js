@@ -1,5 +1,7 @@
 import { EventBus } from '../event-bus';
 import ResourceFilter from "../components/ResourceFilter";
+import 'datatables.net';
+import 'datatables.net-responsive';
 
 export default {
     data() {
@@ -13,6 +15,8 @@ export default {
             fetchJobName: '',
             deleteJobName: '',
             updateJobName: '',
+            datatable: null,
+            tableInitialized: false
         }
     },
     methods: {
@@ -31,6 +35,9 @@ export default {
             this.$store.dispatch(this.deleteJobName, id)
                 .then(message => {
                     M.toast({html: message});
+                    this.dataTable.row($(event.target).parents('tr'))
+                        .remove()
+                        .draw(false);
                 })
                 .catch(error => {
                     this.showError(error.response);
@@ -59,6 +66,15 @@ export default {
         filterChanged(filtersResult) {
             this.filters = filtersResult;
             this.fetchResources();
+        },
+        initTable() {
+            const $listDataTable = $("#list-datatable");
+            // datatable initialization
+            if ($listDataTable.length > 0) {
+                this.dataTable = $listDataTable.DataTable({
+                    responsive: true,
+                });
+            }
         }
     },
     computed: {
@@ -81,6 +97,14 @@ export default {
         currentPage() {
             this.resources = [];
             this.fetchResources();
+        },
+        resources(newValue) {
+            if(newValue.length && !this.tableInitialized) {
+                setTimeout(() => {
+                    this.initTable();
+                }, 1000);
+                this.tableInitialized = true;
+            }
         }
     },
     created() {

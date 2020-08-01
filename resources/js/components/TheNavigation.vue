@@ -69,13 +69,13 @@
                         </template>
                     </navigation-item>
 
-                    <navigation-item :to="{name: 'hotels', params: { lang: $i18n.locale }}">
+                    <navigation-item to="#">
                         <template #route-content>
                             <i class="material-icons">radio_button_unchecked</i>{{ $t('nav.hotels_reservation') }}
                         </template>
                     </navigation-item>
 
-                    <navigation-item :to="{name: 'hotels', params: { lang: $i18n.locale }}">
+                    <navigation-item to="#">
                         <template #route-content>
                             <i class="material-icons">radio_button_unchecked</i>{{ $t('nav.hotels_status') }}
                         </template>

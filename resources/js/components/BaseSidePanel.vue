@@ -1,9 +1,6 @@
 <template>
-    <div :id="link" class="sidenav">
-        <div class="sidenav-cont">
-            <slot></slot>
-            <span class="sidenav-close sidenav-close-icon"><i class="material-icons">close</i></span>
-        </div>
+    <div :id="link" class="sidenav list-sidenav">
+        <slot></slot>
     </div>
 </template>
 
@@ -13,7 +10,7 @@ export default {
     props: { link: String },
     mounted() {
         const modal = this,
-            $sidenav = $('.sidenav');
+            $sidenav = $('.sidenav.list-sidenav');
 
         $sidenav.sidenav({
             edge: 'right',
@@ -26,7 +23,10 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+    @import "../../assets/css/pages/app-sidebar.css";
+    @import "../../assets/css/pages/app-todo.css";
+
     .sidenav-cont { 
         position: relative; 
         padding: 0px 15px;
@@ -41,4 +41,37 @@ export default {
     .sidenav .divider {
         margin-bottom: 2em;
     }
+
+    .list-sidenav{
+        /* contact sidebar */
+        box-shadow: -8px 0 18px 0 rgba(25,42,70,0.13);
+        width: 24.8rem;
+        background-color: white;
+        height: 100vh;
+        position: absolute;
+        top: 0;
+
+        // Close Icon
+        .card{
+            box-shadow: none;
+            .card-header{
+                justify-content: space-between;
+                align-items: center;
+                .close-icon{
+                    cursor: pointer;
+                    i{
+                        font-size: 1.2rem;
+                    }
+                    &:focus{
+                        outline: none;
+                    }
+                }
+            }
+        }
+
+        .btn--blue {
+            background-color: #3f51b5;
+        }
+    }
+
 </style>
