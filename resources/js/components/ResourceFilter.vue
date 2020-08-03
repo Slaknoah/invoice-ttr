@@ -4,19 +4,19 @@
             <template v-for="filter in filters">
                 <base-select
                         v-if="filter.type === 'select'"
-                        parentClass="col s4"
-                        :options="filter.options"
-                        :label="filter.label"
-                        @input="emitData"
-                        v-model="filter.value">
+                        parentClass= "col s12 m6 l3"
+                        :options= "filter.options"
+                        :label= "filter.label"
+                        @input= "emitData"
+                        v-model= "filter.value">
                 </base-select>
                 <base-input
-                        v-else-if="filter.type === 'text'"
-                        v-model="filter.value"
-                        :label="filter.label"
-                        type="text"
-                        @input="emitData"
-                        parentClass="input-field col s4">
+                        v-else-if= "filter.type === 'text'"
+                        v-model= "filter.value"
+                        :label= "filter.label"
+                        type= "text"
+                        @input= "emitData"
+                        parentClass= "col s12 m6 l3">
                 </base-input>
             </template>
         </div>

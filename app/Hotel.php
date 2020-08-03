@@ -16,6 +16,10 @@ class Hotel extends Model
         return $this->hasMany('App/HotelReservation', 'hotel_id');
     }
 
+    public function tourists() {
+        return $this->hasMany('App/Tourist');
+    }
+
     public function setAccommodationsAttribute($value)
 	{
 	    $accommodations = [];

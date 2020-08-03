@@ -125,8 +125,9 @@ export default {
                     email: this.email,
                     description: this.description
                 })
-                .then(message => {
-                    M.toast({html: message});
+                .then(data => {
+                    M.toast({html: data.message});
+                    this.$emit('resourceUpdated', data.response);
                     EventBus.$emit("CLOSE_MODAL", this.modalLink);
                 })
                 .catch(error => {

@@ -1106,6 +1106,8 @@ export default {
 
 
 <style lang="scss">
+    body { overflow-x: hidden }
+
     .load-enter-active, .load-leave-active {
         transition: opacity .5s ease;
     }

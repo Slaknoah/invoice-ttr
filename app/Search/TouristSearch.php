@@ -10,7 +10,8 @@ class TouristSearch extends Searchable
         'CreatedAt',
         'UpdatedAt',
         'OrderBy',
-        'Search'
+        'Search',
+        'HasRel'
     ];
 
     public static function returnModelInstance()

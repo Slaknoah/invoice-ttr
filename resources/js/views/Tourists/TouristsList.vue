@@ -1,6 +1,9 @@
 <template>
     <div>
         <list-layout>
+            <template #filter>
+                <resource-filter :filters="touristFilters" @filtersChange="filterChanged"></resource-filter>
+            </template>
             <template #table>
                 <transition name="fade" mode="out-in">
                     <div v-if="!resources.length && isFetching" class="loading">
@@ -9,32 +12,35 @@
                         </div>
                     </div>
 
-                    <table v-else id="list-datatable" class="table">
+                    <table v-else id="list-datatable" class="table" v-once>
                         <thead>
                             <tr>
                                 <th>{{ $t('general.id') }}</th>
                                 <th>{{ $t('tourists.name') }}</th>
                                 <th>{{ $t('tourists.phone') }}</th>
                                 <th>{{ $t('tourists.email') }}</th>
-                                <th style="width:50px"></th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <transition-group tag="tbody" name="list-item" >
                             <tr
                                     v-for="(tourist, index) in resources"
-                                    :href="'#' + modalID"
                                     :key="tourist.id"
-                                    :data-index="index"
-                                    class="sidenav-trigger"
-                                    @click="editResource(tourist)">
+                                    :data-index="index">
                                 <th>{{ tourist.id }}</th>
                                 <td>{{ tourist.name }}</td>
                                 <td>{{ tourist.phone }}</td>
                                 <td>{{ tourist.email }}</td>
-                                <td class="actions" @click.prevent="deleteResource(tourist.id, $event)">
-                                    <button class="btn-flat waves-effect" name="action">
-                                        <i class="material-icons">delete</i>
-                                    </button>
+                                <td class="actions">
+                                    <a class="sidenav-trigger"
+                                            @click.prevent="editResource(tourist)"
+                                            :href="'#' + modalID">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                </td>
+                                <td @click.prevent="deleteResource(tourist.id, $event)">
+                                    <a href="Javascript:void(0);"><i class="material-icons pink-text">delete</i></a>
                                 </td>
                             </tr >
                         </transition-group>
@@ -47,7 +53,8 @@
             :modalLink="modalID"
             :mode="currentFormMode"
             :model="currentResource"
-            @resourceAdded="drawResourceToTable">
+            @resourceAdded="drawResourceToTable"
+            @resourceUpdated="updateResourceToTable">
         </tourist-form>
     </div>
 </template>
@@ -64,21 +71,31 @@ export default {
         return {
             fetchJobName: 'fetchTourists',
             deleteJobName: 'deleteTourist',
+            dataTableOptions: {
+                responsive: true,
+                "order": [[ 0, "desc" ]],
+                "deferRender": true,
+                'columnDefs': [{
+                    "orderable": false,
+                    "targets": [-1, -2]
+                }]
+            }
         }
     },
     methods: {
-        drawResourceToTable(resource) {
-            const node = this.dataTable.row.add([
+        constructTableObject (resource) {
+            return [
                 resource.id,
                 resource.name,
                 resource.phone,
                 resource.email,
-                `<button class="btn-flat waves-effect" name="action">
-                                        <i class="material-icons">delete</i>
-                                    </button>`
-            ]).draw().node();
-
-            node.addEventListener('click', e => this.deleteResource(resource.id, e) );
+                `<a class="sidenav-trigger edit-btn" href="#${this.modalID}">
+                    <i class="material-icons">edit</i>
+                </a>`,
+                `<a class="delete-btn" href="Javascript:void(0);">
+                    <i class="material-icons pink-text">delete</i>
+                </a>`
+            ];
         }
     },
     computed: {
@@ -90,16 +107,22 @@ export default {
         touristFilters() {
             return [
                 {
-                    type: 'text',
-                    name: 'search',
-                    label: this.$t('general.searchLabel'),
-                    value: this.filters.search
+                    type: 'select',
+                    name: 'hotel',
+                    label: this.$t('hotels.hotel_visited'),
+                    options: this.$store.getters.getHotels.map(hotel => {
+                        return {
+                            value: hotel.id,
+                            text: this.$capitalizeText(hotel.name)
+                        }
+                    }),
+                    value: this.filters.hotel
                 }
             ]
         }
     },
     mounted() {
-
+        this.$store.dispatch('fetchHotels', {}).catch(error => console.log(error));
     },
     components: {
         ListLayout,

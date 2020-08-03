@@ -50,7 +50,7 @@
         "save_pass_btn": "Save"
     },
     "tourists": {
-        "title": "Tourists",
+        "title": "Tourist | Tourists",
         "name": "Name",
         "phone": "Telephone",
         "email": "E-mail",
@@ -65,7 +65,8 @@
         "create_title": "Create order"
     },
     "hotels": {
-        "title": "Hotels",
+        "title": "Hotel | Hotels",
+        "hotel_visited": "Hotel visited",
         "name": "Hotel name",
         "accommodations": "Accommodations",
         "accommodation_input": "Add accommodation",

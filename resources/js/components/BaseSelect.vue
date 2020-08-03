@@ -1,19 +1,20 @@
 <template>
-  <div class="input-field" :class="parentClass">
+  <div :class="parentClass">
     <slot name="bf-input"></slot>
-    <select  :id="name" @change="change" v-bind="$attrs" >
-      <option value="">{{ notSelectedLabel || $t('general.all') }}</option>
-      <option
-        :value="option.value"
-        v-for="(option, index) in options"
-        :key="index"
-        :selected="selectedOption(option)">
-        {{option.text}}
-      </option>
-    </select>
     <label :for="name">{{ label }}</label>
+    <div class="input-field">
+      <select  :id="name" @change="change" class="form-control base-select" v-bind="$attrs" >
+        <option value="">{{ notSelectedLabel || $t('general.all') }}</option>
+        <option
+          :value="option.value"
+          v-for="(option, index) in options"
+          :key="index"
+          :selected="selectedOption(option)">{{option.text}}</option>
+      </select>
+    </div>
     <slot name="af-input"></slot>
   </div>
+
 </template>
 
 <script>
@@ -58,18 +59,18 @@ export default {
     watch: {
         options() {
             this.$nextTick(() => {
-                $('select').formSelect();
+                $('.base-select').formSelect();
             });
         },
         value() {
           this.$nextTick(() => {
-            $('select').formSelect();
+            // $('.base-select').formSelect();
           });
         }
     },
     mounted() {
         $(document).ready(function(){
-            $('select').formSelect();
+            $('.base-select').formSelect();
         });
     },
 };

@@ -48,7 +48,7 @@ export default {
         width: 24.8rem;
         background-color: white;
         height: 100vh;
-        position: absolute;
+        position: fixed;
         top: 0;
 
         // Close Icon

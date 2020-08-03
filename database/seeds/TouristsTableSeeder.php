@@ -1,5 +1,6 @@
 <?php
 
+use App\Hotel;
 use Illuminate\Database\Seeder;
 
 class TouristsTableSeeder extends Seeder
@@ -11,6 +12,15 @@ class TouristsTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Tourist::class, 20)->create();
+        $hotels = Hotel::all('id');
+
+        $tourists = factory(App\Tourist::class, 1000)->create();
+
+        foreach ($tourists as $tourist) {
+            $tourist->hotels()->attach([
+                $hotels[rand(0, 4)]->id,
+                $hotels[rand(0, 4)]->id,
+            ]);
+        }
     }
 }

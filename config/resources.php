@@ -1,5 +1,5 @@
 <?php
 
 return [
-    'items_per_page' => 15
+    'items_per_page' => 1000
 ];
