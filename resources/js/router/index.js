@@ -14,6 +14,7 @@ const DashboardStatistics = () => import(/* webpackChunkName: "dashboard-statist
 const InvoicesList = () => import(/* webpackChunkName: "invoice-list" */  "../views/Orders/OrdersList");
 const InvoiceCreate = () => import(/* webpackChunkName: "invoice-create" */  "../views/Orders/OrdersCreate");
 const TouristsList = () => import(/* webpackChunkName: "tourists-list" */  "../views/Tourists/TouristsList");
+const LocationsList = () => import(/* webpackChunkName: "tourists-list" */  "../views/Locations/LocationsList");
 const HotelsList = () => import(/* webpackChunkName: "hotels-list" */  "../views/Hotels/HotelsList");
 const ServicesList = () => import(/* webpackChunkName: "services-list" */  "../views/Services/ServicesList");
 const NotFound = () => import(/* webpackChunkName: "notfound" */  "../views/404");
@@ -119,6 +120,19 @@ const localizedRoutes = [
         ]
     },
     {
+        path: "locations",
+        name: "locations",
+        component: LocationsList,
+        meta: {
+            requiresAuth: true,
+            isManager: true,
+            hasFloatingBtn: true,
+            btnTitle: i18n.tc('nav.locations_add'),
+            modalID: 'add_location',
+            breadCrumb: "Locations",
+        }
+    },
+    {
         path: "tourists",
         name: "tourists",
         component: TouristsList,
@@ -138,6 +152,7 @@ const localizedRoutes = [
         meta: {
             requiresAuth: true,
             hasFloatingBtn: true,
+            btnTitle: i18n.tc('nav.hotel_add'),
             modalID: 'add_hotel',
             breadCrumb: "Hotels",
         }

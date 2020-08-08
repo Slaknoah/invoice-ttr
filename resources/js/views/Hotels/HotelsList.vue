@@ -1,92 +1,102 @@
 <template>
-    <div class="content">
-        <div class="container">
-            <resource-filter :filters="hotelFilters" @filtersChange="filterChanged"></resource-filter>
-        </div>
-        <div class="container frame">
-            <table class="editable">
-                <thead>
-                    <tr>
-                        <th>{{ $t('hotels.name') }}</th>
-                        <th>{{ $t('hotels.accommodations') }}</th>
-                        <th style="width:50px"></th>
-                    </tr>
-                </thead>
+    <div>
+        <list-layout>
+            <template #filter>
+                <resource-filter :filters="hotelFilters" @filtersChange="filterChanged"></resource-filter>
+            </template>
 
+            <template #table>
                 <transition name="fade" mode="out-in">
-                    <tbody  v-if="!resources.length && isFetching" class="loading">
-                        <tr v-for="index in 5" :key="index">
-                            <td colspan="3">
-                                <hotel-loading></hotel-loading>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <div v-if="!resources.length && isFetching" class="loading">
+                        <div class="loading__item" v-for="index in 10" :key="index">
+                            <table-loading></table-loading>
+                        </div>
+                    </div>
 
-                    <tbody v-else-if="!resources.length && !isFetching">
-                        <tr>
-                            <td colspan="5" class="center-align">
-                                <h4>No resource found!</h4>
-                            </td>
-                        </tr>
-                    </tbody>
+                    <table v-else id="list-datatable" class="table" v-once>
+                        <thead>
+                            <tr>
+                                <th>{{ $t('general.id') }}</th>
+                                <th>{{ $t('general.name') }}</th>
+                                <th>{{ $t('general.address') }}</th>
+                                <th>{{ $t('general.telephone') }}</th>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                        </thead>
 
-                    <transition-group tag="tbody" v-else name="list-item" >
-                        <tr 
-                            v-for="(hotel, index) in resources"
-                            :href="'#' + modalID" 
-                            :key="hotel.id" 
-                            :data-index="index"
-                            class="sidenav-trigger"
-                            @click="editResource(hotel)"
-                            >
-                            <td>{{ hotel.name }}</td>
-                            <td>
-                                <div class="chip" v-for="(accommodation, i) in hotel.accommodations" :key="i">
-                                    {{ accommodation }}
-                                </div>
-                            </td>
-                            <td class="actions" @click.prevent="deleteResource(hotel.id, $event)">
-                                <button class="btn-flat waves-effect" type="submit" name="action">
-                                    <i class="material-icons">delete</i>
-                                </button>
-                            </td>
-                        </tr >
-                    </transition-group>
+                        <transition-group tag="tbody" name="list-item" >
+                            <tr
+                                    v-for="(hotel, index) in resources"
+                                    :key="hotel.id"
+                                    :data-index="index">
+                                <td>{{ hotel.id }}</td>
+                                <td>{{ hotel.name }}</td>
+                                <td>{{ hotel.address }}</td>
+                                <td>{{ hotel.telephone }}</td>
+                                <td class="actions">
+                                    <a class="sidenav-trigger"
+                                       @click.prevent="editResource(hotel)"
+                                       :href="'#' + modalID">
+                                        <i class="material-icons">edit</i>
+                                    </a>
+                                </td>
+                                <td @click.prevent="deleteResource(hotel.id, $event)">
+                                    <a href="Javascript:void(0);"><i class="material-icons pink-text">delete</i></a>
+                                </td>
+                            </tr >
+                        </transition-group>
+                    </table>
                 </transition>
-            </table>
+            </template>
+        </list-layout>
 
-            <transition name="fade">
-                <base-pagination
-                    v-if="pageCount > 1"
-                    :current-page="currentPage"
-                    :page-count="pageCount"
-                    class="mt-5"
-                    :is-add-dots="true"
-                    @previousPage="pageChangeHandle('previous')"
-                    @nextPage="pageChangeHandle('next')"
-                    @loadPage="pageChangeHandle">
-                </base-pagination>
-            </transition>
-        </div>
-<!--        <hotel-form-->
-<!--            :modalLink="modalID" -->
-<!--            :mode="currentFormMode"-->
-<!--            :model="currentResource">-->
-<!--        </hotel-form>-->
+        <hotel-form
+            :modalLink="modalID"
+            :mode="currentFormMode"
+            :model="currentResource"
+            @resourceAdded="drawResourceToTable"
+            @resourceUpdated="updateResourceToTable">
+        </hotel-form>
     </div>
 </template>
 
 <script>
 import HotelForm from "./HotelForm";
-import HotelLoading from "../../components/Preloaders/HotelLoading";
 import listMixin from "../../mixins/listMixin";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
+import ListLayout from "../../layouts/ListLayout";
 
 export default {
     data() {
         return {
             fetchJobName: 'fetchHotels',
             deleteJobName: 'deleteHotel',
+            dataTableOptions: {
+                responsive: true,
+                "order": [[ 0, "desc" ]],
+                "deferRender": true,
+                'columnDefs': [ {
+                    "orderable": false,
+                    "targets": [ -1, -2 ]
+                } ]
+            }
+        }
+    },
+    methods: {
+        constructTableObject (resource) {
+            return [
+                resource.id,
+                resource.name,
+                resource.address,
+                resource.telephone,
+                `<a class="sidenav-trigger edit-btn" href="#${this.modalID}">
+                    <i class="material-icons">edit</i>
+                </a>`,
+                `<a class="delete-btn" href="Javascript:void(0);">
+                    <i class="material-icons pink-text">delete</i>
+                </a>`
+            ];
         }
     },
     computed: {
@@ -96,24 +106,19 @@ export default {
             storedFilters: 'getHotelsFilter'
         }),
         hotelFilters() {
-            return [
-                {
-                    type: 'text',
-                    name: 'search',
-                    label: this.$t('general.searchLabel'),
-                    value: this.filters.search
-                }
-            ]
+            return []
         }
     },
     components: { 
         HotelForm,
-        HotelLoading,
+        ListLayout
     },
     mixins: [ listMixin ]
 }
 </script>
 
-<style scoped lang="scss">
-    @import "../../../sass/pages/hotels";
+<style scoped>
+    .list-sidenav {
+        width: 30rem;
+    }
 </style>

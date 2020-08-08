@@ -35,6 +35,7 @@ Route::group( ['middleware' => 'auth:api' ], function() {
             return Permission::all();
         });
 
+        Route::apiResource('locations', 'LocationController');
         Route::apiResource('tourists', 'TouristController');
         Route::apiResource('hotels', 'HotelController');
         Route::apiResource('services', 'ServiceController');

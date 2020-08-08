@@ -65,7 +65,7 @@ const actions = {
                 .post('/hotels', parameters)
                 .then(res => {
                     commit("ADD_NEW_HOTEL", res.data.response);
-                    resolve(res.data.message);
+                    resolve(res.data);
                 })
                 .catch(error => reject(error));
         })
@@ -76,7 +76,7 @@ const actions = {
                 .put(`/hotels/${parameters.id}`, parameters)
                 .then(res => {
                     commit("UPDATE_HOTEL", res.data.response);
-                    resolve(res.data.message);
+                    resolve(res.data);
                 })
                 .catch(error => reject(error));
         })

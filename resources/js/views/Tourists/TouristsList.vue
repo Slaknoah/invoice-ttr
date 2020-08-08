@@ -4,11 +4,12 @@
             <template #filter>
                 <resource-filter :filters="touristFilters" @filtersChange="filterChanged"></resource-filter>
             </template>
+
             <template #table>
                 <transition name="fade" mode="out-in">
                     <div v-if="!resources.length && isFetching" class="loading">
                         <div class="loading__item" v-for="index in 10" :key="index">
-                            <tourist-loading></tourist-loading>
+                            <table-loading></table-loading>
                         </div>
                     </div>
 
@@ -61,9 +62,8 @@
 
 <script>
 import TouristForm from "./TouristForm";
-import TouristLoading from "../../components/Preloaders/TouristLoading";
 import listMixin from "../../mixins/listMixin";
-import {mapGetters} from "vuex";
+import { mapGetters } from "vuex";
 import ListLayout from "../../layouts/ListLayout";
 
 export default {
@@ -75,10 +75,10 @@ export default {
                 responsive: true,
                 "order": [[ 0, "desc" ]],
                 "deferRender": true,
-                'columnDefs': [{
+                'columnDefs': [ {
                     "orderable": false,
-                    "targets": [-1, -2]
-                }]
+                    "targets": [ -1, -2 ]
+                } ]
             }
         }
     },
@@ -127,7 +127,6 @@ export default {
     components: {
         ListLayout,
         TouristForm,
-        TouristLoading,
     },
     mixins: [ listMixin ]
 }

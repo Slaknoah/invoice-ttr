@@ -1,5 +1,5 @@
 <template>
-  <div :class="parentClass">
+  <div class="input-field" :class="parentClass">
     <slot name="bf-input"></slot>
     <input  v-if="!isTextarea"
         ref="input"

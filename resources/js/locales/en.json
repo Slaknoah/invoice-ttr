@@ -10,7 +10,18 @@
         "no": "No",
         "searchLabel": "Search here",
         "all": "All",
-        "id": "ID"
+        "id": "ID",
+        "tables": "Tables",
+        "name": "Name",
+        "address": "Address",
+        "telephone": "Telephone",
+        "telephone_two": "Telephone 2",
+        "delete_question": "Are you sure?",
+        "delete_question_info": "You will not be able to recover once deleted!",
+        "delete_yes": "Yes, Delete It",
+        "delete_no": "No, Please!",
+        "short_code": "Short code",
+        "type": "Type"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -21,6 +32,7 @@
         "tourist_add": "Add tourist",
         "hotels": "Hotels",
         "hotels_list": "Hotels list",
+        "hotel_add": "Add hotel",
         "hotels_status": "Hotels status",
         "hotels_reservation": "Hotels reservation",
         "services": "Services",
@@ -29,7 +41,11 @@
         "users": "Users",
         "users_list": "Users list",
         "users_add":"Add user",
-        "profile": "Profile"
+        "profile": "Profile",
+        "locations": "Locations",
+        "locations_import": "Import locations",
+        "locations_list": "Locations list",
+        "locations_add": "Add location"
     },
     "lang": {
         "english": "English",

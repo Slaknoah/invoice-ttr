@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Hotel;
+use App\Rules\PhoneNumber;
 use App\Search\HotelSearch;
 use Illuminate\Http\Request;
 use App\Http\Resources\HotelResource;
@@ -21,7 +22,8 @@ class HotelController extends Controller
     public function index(Request $request)
     {
         $hotelSearch = new HotelSearch();
-        return HotelResource::collection($hotelSearch->apply($request));
+
+        return HotelResource::collection( $hotelSearch->apply( $request ) );
     }
 
     /**
@@ -33,19 +35,25 @@ class HotelController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'hotel_name'  => 'required',
-            'accommodations' => 'nullable|array',
+            'hotel_name'        => 'required',
+            'address'           => 'required',
+            'telephone'         => [ 'nullable', new PhoneNumber() ],
+            'telephone_two'     => [ 'nullable', new PhoneNumber() ],
+            'accommodations'    => 'nullable|array',
         ]);
 
         $hotel = new Hotel([
-            'name' => $request->get('hotel_name'),
-            'accommodations' => $request->get('accommodations')
+            'name'              => $request->get('hotel_name'),
+            'address'           => $request->get('address'),
+            'telephone'         => $request->get('telephone'),
+            'telephone_two'     => $request->get('telephone_two'),
+            'accommodations'    => $request->get('accommodations')
         ]);
         $hotel->save();
 
         return response()->json([
-            'message' => __('responses.hotel.stored'),
-            'response' => new HotelResource($hotel)
+            'message'   => __('responses.hotel.stored'),
+            'response'  => new HotelResource($hotel)
         ]);
     }
 

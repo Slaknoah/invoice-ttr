@@ -14,7 +14,7 @@ class TouristsTableSeeder extends Seeder
     {
         $hotels = Hotel::all('id');
 
-        $tourists = factory(App\Tourist::class, 1000)->create();
+        $tourists = factory(App\Tourist::class, 100)->create();
 
         foreach ($tourists as $tourist) {
             $tourist->hotels()->attach([

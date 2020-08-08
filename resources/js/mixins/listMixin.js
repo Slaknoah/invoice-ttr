@@ -1,7 +1,9 @@
 import { EventBus } from '../event-bus';
 import ResourceFilter from "../components/ResourceFilter";
+import TableLoading from "../components/Preloaders/TableLoading";
 import 'datatables.net';
 import 'datatables.net-responsive';
+import swal from "sweetalert";
 
 export default {
     data() {
@@ -33,26 +35,47 @@ export default {
 
             this.isFetching = false;
         },
+
         deleteResource(id, event) {
-            this.$store.dispatch(this.deleteJobName, id)
-                .then(message => {
-                    M.toast({html: message});
-                    this.dataTable.row($(event.target).parents('tr'))
-                        .remove()
-                        .draw(false);
-                })
-                .catch(error => {
-                    this.showError(error.response);
-                });
+            swal({
+                title: this.$t('general.delete_question'),
+                text: this.$t('general.delete_question_info'),
+                icon: 'warning',
+                dangerMode: true,
+                buttons: {
+                    cancel: this.$t('general.delete_no'),
+                    delete: this.$t('general.delete_yes')
+                }
+            }).then(willDelete => {
+               if(willDelete) {
+                   this.$store.dispatch(this.deleteJobName, id)
+                       .then(message => {
+                           swal(message, {
+                               icon: "success",
+                           });
+                           this.dataTable.row($(event.target).parents('tr'))
+                               .remove()
+                               .draw(false);
+                       })
+                       .catch(error => {
+                           this.showError(error.response);
+
+                       });
+               }
+            });
+
             event.stopPropagation();
         },
+
         viewResource(resource) {
             this.currentResource = resource;
         },
+
         editResource(resource) {
             this.currentResource = resource;
             this.currentFormMode = "edit";
         },
+
         pageChangeHandle(value) {
             switch (value) {
                 case "next":
@@ -65,10 +88,12 @@ export default {
                     this.currentPage = value;
             }
         },
+
         filterChanged(filtersResult) {
             this.filters = filtersResult;
             this.fetchResources();
         },
+
         drawResourcesToTable() {
             if(this.tableInitialized) {
                 this.dataTable.clear();
@@ -91,6 +116,7 @@ export default {
                 } );
             }
         },
+
         drawResourceToTable(resource) {
             const node = this.dataTable.row.add( this.constructTableObject( resource ) ).draw(false).node();
 
@@ -100,6 +126,7 @@ export default {
             node.querySelector( '.edit-btn' )
                 .addEventListener( 'click', () => this.editResource( resource ) );
         },
+
         updateResourceToTable(resource) {
             const component = this;
 
@@ -118,6 +145,7 @@ export default {
             });
             this.dataTable.draw();
         },
+
         initTable() {
             const $listDataTable = $("#list-datatable");
             // datatable initialization
@@ -128,15 +156,19 @@ export default {
     },
     computed: {
         modalID() { return this.$route.meta.modalID; },
+
         storedResources() {
             return [];
         },
+
         resourceMetas() {
             return [];
         },
+
         storedFilters() {
             return {};
         },
+
         pageCount() {
             if(this.resourceMetas)
                 return Math.ceil(this.resourceMetas.total / this.resourceMetas.per_page);
@@ -175,6 +207,7 @@ export default {
             this.filters = {...this.storedFilters};
     },
     components: {
-        ResourceFilter
+        ResourceFilter,
+        TableLoading
     }
 }

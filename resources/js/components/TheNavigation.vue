@@ -48,7 +48,28 @@
                 </template>
             </navigation-item>
 
-            <li class="navigation-header"><a class="navigation-header-text">Tables</a></li>
+            <li class="navigation-header"><a class="navigation-header-text">{{ $t('general.tables') }}</a></li>
+
+            <navigation-item :is-router-link="false" class="bold" link-class="waves-effect waves-cyan" has-submenu>
+                <template #route-content>
+                    <i class="material-icons">location_on</i>
+                    <span class="menu-title">{{ $t('nav.locations') }}</span>
+                </template>
+
+                <template #route-submenu>
+                    <navigation-item :to="{name: 'locations', params: { lang: $i18n.locale }}">
+                        <template #route-content>
+                            <i class="material-icons">radio_button_unchecked</i>{{ $t('nav.locations_list') }}
+                        </template>
+                    </navigation-item>
+
+                    <navigation-item to="#">
+                        <template #route-content>
+                            <i class="material-icons">radio_button_unchecked</i>{{ $t('nav.locations_import') }}
+                        </template>
+                    </navigation-item>
+                </template>
+            </navigation-item>
 
             <navigation-item :to="{name: 'tourists', params: { lang: $i18n.locale }}" class="bold" link-class="waves-effect waves-cyan">
                 <template #route-content>

@@ -18,6 +18,8 @@ export default {
             onOpenStart() { modal.$emit('modalOpened'); }
         });
 
+        $('.icon-close').click(() => $sidenav.sidenav('close'));
+
         EventBus.$on("CLOSE_MODAL", modalID => $sidenav.sidenav('close') );
     }
 }
@@ -50,6 +52,7 @@ export default {
         height: 100vh;
         position: fixed;
         top: 0;
+        overflow-y: scroll;
 
         // Close Icon
         .card{

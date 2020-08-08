@@ -2,6 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 import auth from "./modules/auth";
 import tourists from './modules/tourists';
+import locations from './modules/locations';
 import hotels from './modules/hotels';
 import services from './modules/services';
 import users from './modules/users';
@@ -56,6 +57,7 @@ export default new Vuex.Store({
     },
     modules: {
         auth,
+        locations,
         tourists,
         hotels,
         services,

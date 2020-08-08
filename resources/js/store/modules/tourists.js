@@ -1,5 +1,4 @@
 import axios from "../../bootstrap/axios";
-import hotels from "./hotels";
 
 const state = {
     tourists: [],
@@ -28,7 +27,7 @@ const mutations = {
             if (index !== -1) {
                 Object.assign(state.tourists[index], payload);
             }
-        } 
+        }
     },
     DELETE_TOURIST(state, payload) {
         if (state.tourists.length) {
@@ -60,7 +59,7 @@ const actions = {
                     resolve(res.data.data);
                 })
                 .catch(error => reject(error));
-        }); 
+        });
     },
     addTourist({ commit }, parameters) {
         return new Promise((resolve, reject) => {

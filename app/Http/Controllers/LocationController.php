@@ -2,6 +2,11 @@
 namespace App\Http\Controllers;
 
 use App\Contracts\Client;
+use App\Http\Resources\LocationResource;
+use App\Search\LocationSearch;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 class LocationController extends Controller
 {
     private $client;
@@ -11,10 +16,16 @@ class LocationController extends Controller
         $this->client = $client;
     }
 
-    public function index() {
-//        $response   = $this->client->get('/attractions/list?lang=en_US&currency=USD&sort=recommended&lunit=km&limit=30&bookable_first=false&subcategory=36&location_id=293928');
-//        $body       = $response->getBody();
-//        dd(json_decode($body));
-        dd('skdhfksjdhkfhsj');
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param Request $request
+     * @return AnonymousResourceCollection
+     */
+    public function index(Request $request)
+    {
+        $locationSearch = new LocationSearch();
+        return LocationResource::collection($locationSearch->apply($request));
     }
 }

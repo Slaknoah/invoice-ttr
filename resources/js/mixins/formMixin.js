@@ -1,3 +1,5 @@
+import { EventBus } from '../event-bus';
+
 export default {
     props: {
         modalLink: String,
@@ -12,6 +14,9 @@ export default {
     methods: {
         resetFormData() {
             Object.assign(this.$data, this.$options.data())
+        },
+        closeModal() {
+            EventBus.$emit("CLOSE_MODAL", this.modalLink);
         }
     },
 }

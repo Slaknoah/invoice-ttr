@@ -5,6 +5,7 @@
     "/forgot-password.js": "/forgot-password.js",
     "/hotels-list.js": "/hotels-list.js",
     "/hotels-list~services-list~tourists-list~users-list.js": "/hotels-list~services-list~tourists-list~users-list.js",
+    "/hotels-list~tourists-list.js": "/hotels-list~tourists-list.js",
     "/invoice-create.js": "/invoice-create.js",
     "/invoice-list.js": "/invoice-list.js",
     "/login.js": "/login.js",

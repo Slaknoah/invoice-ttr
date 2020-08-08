@@ -4,7 +4,7 @@
             <div class="card-content pt-0">
                 <div class="card-header display-flex pb-2">
                     <h3 class="card-title contact-title-label">{{ isCreateMode ? $t('tourists.form_title.add') :  $t('tourists.form_title.edit')}}</h3>
-                    <div class="close close-icon">
+                    <div class="close close-icon" @click="closeModal">
                         <i class="material-icons">close</i>
                     </div>
                 </div>
@@ -16,7 +16,7 @@
                             v-model="name"
                             :label="$t('tourists.name')"
                             type="text"
-                            parentClass="input-field col s12">
+                            parentClass="col s12">
                             <template v-slot:bf-input>
                                 <i class="material-icons prefix">perm_identity</i>
                             </template>
@@ -28,7 +28,7 @@
                         <BaseInput
                             v-model="phone"
                             :label="$t('tourists.phone')"
-                            parentClass="input-field col s12"
+                            parentClass="col s12"
                             type="tel">
                             <template v-slot:bf-input>
                                 <i class="material-icons prefix">phone</i>
@@ -41,7 +41,7 @@
                         <BaseInput
                             v-model="email"
                             :label="$t('tourists.email')"
-                            parentClass="input-field col s12"
+                            parentClass="col s12"
                             type="email">
                             <template v-slot:bf-input>
                                 <i class="material-icons prefix">email</i>
@@ -55,7 +55,7 @@
                             v-model="description"
                             :label="$t('tourists.note')"
                             isTextarea="1"
-                            parentClass="input-field col s12"
+                            parentClass="col s12"
                             type="text">
                             <template v-slot:bf-input>
                                 <i class="material-icons prefix">note</i>
@@ -78,7 +78,6 @@
 </template>
 
 <script>
-import { EventBus } from '../../event-bus';
 import formMixin from "../../mixins/formMixin";
 
 export default {
@@ -89,7 +88,7 @@ export default {
             email: "",
             phone: "",
             description: "",
-            validationErrors: {}
+            validationErrors: {},
         }
     },
     methods: {
@@ -111,7 +110,7 @@ export default {
                 .then(data => {
                     M.toast( { html: data.message } );
                     this.$emit('resourceAdded', data.response);
-                    EventBus.$emit("CLOSE_MODAL", this.modalLink);
+                    this.closeModal();
                 })
                 .catch(error => {
                     this.showError(error.response);
@@ -128,7 +127,7 @@ export default {
                 .then(data => {
                     M.toast({html: data.message});
                     this.$emit('resourceUpdated', data.response);
-                    EventBus.$emit("CLOSE_MODAL", this.modalLink);
+                    this.closeModal();
                 })
                 .catch(error => {
                     this.showError(error.response);
@@ -136,6 +135,6 @@ export default {
             }
         }
     },
-    mixins: [formMixin]
+    mixins: [formMixin],
 }
 </script>
