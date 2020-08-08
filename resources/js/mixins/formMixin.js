@@ -1,6 +1,11 @@
 import { EventBus } from '../event-bus';
 
 export default {
+    data() {
+        return {
+            validationErrors: {},
+        }
+    },
     props: {
         modalLink: String,
         model: Object,

@@ -2,16 +2,15 @@
 
 /** @var Factory $factory */
 
-use App\Model;
 use Faker\Generator as Faker;
 use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(App\Location::class, function (Faker $faker) {
     $country = $faker->country;
-    $country_short = substr($country, 0, 3);
+    $country_code = strtoupper( substr( $country, 0, 3 ) );
     return [
         'name'          => $country,
-        'short_name'    => $country_short,
+        'code'          => $country_code,
         'latitude'      => $faker->latitude,
         'longitude'     => $faker->longitude
     ];

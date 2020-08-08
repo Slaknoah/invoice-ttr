@@ -18,20 +18,19 @@
                         <tr>
                             <th>{{ $t('general.id') }}</th>
                             <th>{{ $t('general.name') }}</th>
-                            <th>{{ $t('general.short_code') }}</th>
+                            <th>{{ $t('general.code') }}</th>
                             <th>{{ $t('general.type') }}</th>
                             <th></th>
                             <th></th>
                         </tr>
                         </thead>
                         <transition-group tag="tbody" name="list-item" >
-                            <tr
-                                    v-for="(location, index) in resources"
-                                    :key="location.id"
-                                    :data-index="index">
+                            <tr v-for="(location, index) in resources"
+                                :key="location.id"
+                                :data-index="index">
                                 <th>{{ location.id }}</th>
                                 <td>{{ location.name }}</td>
-                                <td>{{ location.short_name }}</td>
+                                <td>{{ location.code }}</td>
                                 <td>{{ location.type }}</td>
                                 <td class="actions">
                                     <a class="sidenav-trigger"
@@ -49,10 +48,18 @@
                 </transition>
             </template>
         </list-layout>
+
+        <location-form :modalLink="modalID"
+                       :mode="currentFormMode"
+                       :model="currentResource"
+                       @resourceAdded="drawResourceToTable"
+                       @resourceUpdated="updateResourceToTable">
+        </location-form>
     </div>
 </template>
 
 <script>
+    import LocationForm from "./LocationForm";
     import listMixin from "../../mixins/listMixin";
     import { mapGetters } from "vuex";
     import ListLayout from "../../layouts/ListLayout";
@@ -79,8 +86,8 @@
                 return [
                     resource.id,
                     resource.name,
-                    resource.phone,
-                    resource.email,
+                    resource.code,
+                    resource.type,
                     `<a class="sidenav-trigger edit-btn" href="#${this.modalID}">
                     <i class="material-icons">edit</i>
                 </a>`,
@@ -104,6 +111,7 @@
         },
         components: {
             ListLayout,
+            LocationForm
         },
         mixins: [ listMixin ]
     }

@@ -51,12 +51,11 @@
             </template>
         </list-layout>
 
-        <hotel-form
-            :modalLink="modalID"
-            :mode="currentFormMode"
-            :model="currentResource"
-            @resourceAdded="drawResourceToTable"
-            @resourceUpdated="updateResourceToTable">
+        <hotel-form :modalLink="modalID"
+                    :mode="currentFormMode"
+                    :model="currentResource"
+                    @resourceAdded="drawResourceToTable"
+                    @resourceUpdated="updateResourceToTable">
         </hotel-form>
     </div>
 </template>

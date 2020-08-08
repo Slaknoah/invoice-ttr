@@ -23,9 +23,9 @@ const mutations = {
     },
     UPDATE_LOCATION(state, payload) {
         if(state.locations.length) {
-            let index = state.locations.findIndex(obj => obj.id == payload.id);
+            let index = state.locations.findIndex(obj => obj.id == payload.id   );
             if (index !== -1) {
-                Object.assign(state.locations[index], payload);
+                Object.assign( state.locations[index], payload );
             }
         }
     },
@@ -41,7 +41,7 @@ const mutations = {
 };
 
 const actions = {
-    fetchLocations({ commit }, filter) {
+    fetchLocations( { commit }, filter ) {
         let queryString = "/locations?";
         if (parseInt(filter.page)) queryString += `&page=${filter.page}`;
         return new Promise((resolve, reject) =>  {
@@ -59,18 +59,18 @@ const actions = {
                 .catch(error => reject(error));
         });
     },
-    addLocation({ commit }, parameters) {
-        return new Promise((resolve, reject) => {
+    addLocation( { commit }, parameters ) {
+        return new Promise(( resolve, reject ) => {
             axios
-                .post('/locations', parameters)
+                .post('/locations', parameters )
                 .then(res => {
-                    commit("ADD_NEW_LOCATION", res.data.response);
-                    resolve(res.data);
+                    commit( "ADD_NEW_LOCATION", res.data.response );
+                    resolve( res.data );
                 })
-                .catch(error => reject(error));
+                .catch(error => reject( error ));
         })
     },
-    updateLocation({ commit }, parameters) {
+    updateLocation( { commit }, parameters ) {
         return new Promise((resolve, reject) => {
             axios
                 .put(`/locations/${parameters.id}`, parameters)
@@ -81,8 +81,8 @@ const actions = {
                 .catch(error => reject(error));
         })
     },
-    deleteLocation({ commit }, id) {
-        return new Promise((resolve, reject) => {
+    deleteLocation( { commit }, id ) {
+        return new Promise((  resolve, reject ) => {
             axios
                 .delete(`/locations/${id}`)
                 .then(res => {
@@ -95,16 +95,16 @@ const actions = {
 };
 
 const getters = {
-    getLocations(state) {
+    getLocations( state ) {
         return state.locations;
     },
-    getLocationsLinks(state) {
+    getLocationsLinks( state ) {
         return state.locationsLinks;
     },
-    getLocationsMeta(state) {
+    getLocationsMeta( state ) {
         return state.locationsMeta;
     },
-    getLocationsFilter(state) {
+    getLocationsFilter( state ) {
         return state.locationsFilter;
     },
 };

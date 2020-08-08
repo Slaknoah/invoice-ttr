@@ -20,8 +20,10 @@
         "delete_question_info": "You will not be able to recover once deleted!",
         "delete_yes": "Yes, Delete It",
         "delete_no": "No, Please!",
-        "short_code": "Short code",
-        "type": "Type"
+        "code": "Code",
+        "type": "Type",
+        "latitude": "Latitude",
+        "longitude": "Longitude"
     },
     "nav": {
         "dashboard": "Dashboard",
@@ -74,6 +76,13 @@
         "form_title": {
             "add": "Add tourist",
             "edit": "Edit tourist"
+        }
+    },
+    "locations": {
+        "title": "Location | Locations",
+        "form_title": {
+            "add": "Add location",
+            "edit": "Edit location"
         }
     },
     "orders": {

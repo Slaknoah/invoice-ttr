@@ -17,6 +17,11 @@ return [
         "updated" => "Tourist updated.",
         "destroyed" => "Tourist deleted.",
     ],
+    "location" => [
+        "stored" => "Location added.",
+        "updated" => "Location updated.",
+        "destroyed" => "Location deleted.",
+    ],
     "order" => [
         "stored" => "Order added.",
         "updated" => "Order updated.",

@@ -19,9 +19,6 @@
                                   :label="$t('hotels.name')"
                                   type="text"
                                   parentClass="col s12">
-                              <template v-slot:bf-input>
-                                  <i class="material-icons prefix">domain</i>
-                              </template>
                               <template v-slot:af-input>
                                   <BaseValidationError v-if="hasValidationError" :errors="validationErrors.hotel_name"/>
                               </template>
@@ -32,9 +29,6 @@
                                   :label="$t('general.address')"
                                   type="text"
                                   parentClass="col s12">
-                              <template v-slot:bf-input>
-                                  <i class="material-icons prefix">domain</i>
-                              </template>
                               <template v-slot:af-input>
                                   <BaseValidationError v-if="hasValidationError" :errors="validationErrors.address"/>
                               </template>
@@ -45,9 +39,6 @@
                                   :label="$t('general.telephone')"
                                   type="text"
                                   parentClass="col s12">
-                              <template v-slot:bf-input>
-                                  <i class="material-icons prefix">phone</i>
-                              </template>
                               <template v-slot:af-input>
                                   <BaseValidationError v-if="hasValidationError" :errors="validationErrors.telephone"/>
                               </template>
@@ -58,69 +49,58 @@
                                   :label="$t('general.telephone_two')"
                                   type="text"
                                   parentClass="col s12">
-                              <template v-slot:bf-input>
-                                  <i class="material-icons prefix">phone</i>
-                              </template>
                               <template v-slot:af-input>
                                   <BaseValidationError v-if="hasValidationError" :errors="validationErrors.telephone_two"/>
                               </template>
                           </BaseInput>
 
-                          <div class=" col s12">
-                              <p>{{$t('hotels.accommodations')}}</p>
+                          <p class="col s12 mt-4">{{$t('hotels.accommodations')}}</p>
 
-                              <template v-if="isCreateMode">
-                                  <BaseInput
-                                          v-model="accommodation"
-                                          :label="$t('hotels.accommodation_input')"
-                                          v-on:keyup.enter.prevent = "addAccommodation"
-                                          parentClass="input-field multiple-field col s12">
-                                      <template v-slot:bf-input>
-                                          <i class="material-icons prefix">hotel</i>
-                                      </template>
-                                  </BaseInput>
+                          <template v-if="isCreateMode">
+                              <BaseInput
+                                      v-model="accommodation"
+                                      :label="$t('hotels.accommodation_input')"
+                                      v-on:keyup.enter.prevent = "addAccommodation"
+                                      parentClass="col s12">
+                              </BaseInput>
 
-                                  <button id="add-field"
-                                          @click.prevent="addAccommodation"
-                                          class="btn-flat btn-add btn-floating waves-effect waves-light grey right">
-                                      <i class="material-icons">add</i>
-                                  </button>
+                              <button id="add-field"
+                                      @click.prevent="addAccommodation"
+                                      class="btn-flat btn-add btn-floating waves-effect waves-light grey right">
+                                  <i class="material-icons">add</i>
+                              </button>
 
-                                  <div class="accommodation-list">
-                                      <div class="chip" v-for="(accommodation, index) in accommodations" :key="index">
-                                          {{ accommodation }}
-                                          <i class="close material-icons"
-                                             @click.prevent="removeAccommodation(index, $event)">
-                                              close
-                                          </i>
-                                      </div>
+                              <div class="accommodation-list">
+                                  <div class="chip" v-for="(accommodation, index) in accommodations" :key="index">
+                                      {{ accommodation }}
+                                      <i class="close material-icons"
+                                         @click.prevent="removeAccommodation(index, $event)">
+                                          close
+                                      </i>
                                   </div>
-                              </template>
+                              </div>
+                          </template>
 
-                              <template v-else>
-                                  <BaseInput
-                                          v-for="(accommodation, index) in accommodations"
-                                          v-model="accommodations[index]"
-                                          :key="index"
-                                          :ref="'accommodation'"
-                                          :label="$t('hotels.accommodation_edit') + ' ' + (index+1)"
-                                          v-on:keyup.enter.prevent = "(index === (accommodations.length - 1)) ? addAccommodation() : null"
-                                          parentClass="js-acc-input acc-input col s12">
-                                      <template v-slot:bf-input>
-                                          <i class="material-icons prefix">hotel</i>
-                                      </template>
+                          <template v-else>
+                              <BaseInput
+                                      v-for="(accommodation, index) in accommodations"
+                                      v-model="accommodations[index]"
+                                      :key="index"
+                                      :ref="'accommodation'"
+                                      :label="$t('hotels.accommodation_edit') + ' ' + (index+1)"
+                                      v-on:keyup.enter.prevent = "(index === (accommodations.length - 1)) ? addAccommodation() : null"
+                                      parentClass="js-acc-input acc-input col s12">
+                                  <template v-slot:af-input>
+                                      <a class="btn-flat btn-remove inline-button" @click.prevent="removeAccommodation(index, $event)"><i class="material-icons">clear</i></a>
+                                  </template>
+                              </BaseInput>
+                              <a @click.prevent="addAccommodation"
+                                 class="btn-flat btn-add btn-floating waves-effect waves-light grey right">
+                                  <i class="material-icons">add</i>
+                              </a>
+                          </template>
 
-                                      <template v-slot:af-input>
-                                          <a class="btn-flat btn-remove inline-button" @click.prevent="removeAccommodation(index, $event)"><i class="material-icons">clear</i></a>
-                                      </template>
-                                  </BaseInput>
-                                  <a @click.prevent="addAccommodation"
-                                     class="btn-flat btn-add btn-floating waves-effect waves-light grey right">
-                                      <i class="material-icons">add</i>
-                                  </a>
-                              </template>
-                              <BaseValidationError v-if="hasValidationError" :errors="validationErrors.accommodations"/>
-                          </div>
+                          <BaseValidationError v-if="hasValidationError" :errors="validationErrors.accommodations"/>
                       </div>
 
                       <div class="card-action mt-5 pl-0 pr-0 right-align">
@@ -148,7 +128,6 @@ export default {
             telephone_two: "",
             accommodation: '',
             accommodations: [],
-            validationErrors: {}
         }
     },
     methods: {

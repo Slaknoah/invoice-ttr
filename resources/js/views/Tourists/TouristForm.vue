@@ -3,7 +3,9 @@
         <div class="card">
             <div class="card-content pt-0">
                 <div class="card-header display-flex pb-2">
-                    <h3 class="card-title contact-title-label">{{ isCreateMode ? $t('tourists.form_title.add') :  $t('tourists.form_title.edit')}}</h3>
+                    <h3 class="card-title contact-title-label">
+                        {{ isCreateMode ? $t( 'tourists.form_title.add' ) :  $t( 'tourists.form_title.edit' ) }}
+                    </h3>
                     <div class="close close-icon" @click="closeModal">
                         <i class="material-icons">close</i>
                     </div>
@@ -17,9 +19,6 @@
                             :label="$t('tourists.name')"
                             type="text"
                             parentClass="col s12">
-                            <template v-slot:bf-input>
-                                <i class="material-icons prefix">perm_identity</i>
-                            </template>
                             <template v-slot:af-input>
                                 <BaseValidationError v-if="hasValidationError" :errors="validationErrors.name"/>
                             </template>
@@ -30,9 +29,6 @@
                             :label="$t('tourists.phone')"
                             parentClass="col s12"
                             type="tel">
-                            <template v-slot:bf-input>
-                                <i class="material-icons prefix">phone</i>
-                            </template>
                             <template v-slot:af-input>
                                 <BaseValidationError v-if="hasValidationError" :errors="validationErrors.phone"/>
                             </template>
@@ -43,9 +39,6 @@
                             :label="$t('tourists.email')"
                             parentClass="col s12"
                             type="email">
-                            <template v-slot:bf-input>
-                                <i class="material-icons prefix">email</i>
-                            </template>
                             <template v-slot:af-input>
                                 <BaseValidationError v-if="hasValidationError" :errors="validationErrors.email"/>
                             </template>
@@ -57,9 +50,6 @@
                             isTextarea="1"
                             parentClass="col s12"
                             type="text">
-                            <template v-slot:bf-input>
-                                <i class="material-icons prefix">note</i>
-                            </template>
                             <template v-slot:af-input>
                                 <BaseValidationError v-if="hasValidationError" :errors="validationErrors.description"/>
                             </template>
@@ -68,7 +58,9 @@
 
                     <div class="card-action mt-5 pl-0 pr-0 right-align">
                         <button class="btn-small btn--blue waves-effect waves-light add-contact" type="submit">
-                            <span>{{ isCreateMode ? $t('general.add_item_btn') :  $t('general.update_item_btn') }}</span>
+                            <span>
+                                {{ isCreateMode ? $t('general.add_item_btn') :  $t('general.update_item_btn') }}
+                            </span>
                         </button>
                     </div>
                 </form>
@@ -88,14 +80,13 @@ export default {
             email: "",
             phone: "",
             description: "",
-            validationErrors: {},
         }
     },
     methods: {
         setFormData() {
-            this.name = this.model.name;
-            this.email = this.model.email;
-            this.phone = this.model.phone;
+            this.name       = this.model.name;
+            this.email      = this.model.email;
+            this.phone      = this.model.phone;
             this.description = this.model.description;
         },
         saveTourist() {
@@ -125,7 +116,7 @@ export default {
                     description: this.description
                 })
                 .then(data => {
-                    M.toast({html: data.message});
+                    M.toast( { html: data.message } );
                     this.$emit('resourceUpdated', data.response);
                     this.closeModal();
                 })

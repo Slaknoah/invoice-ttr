@@ -16,20 +16,19 @@ class LocationsTableSeeder extends Seeder
         $CITY       = 'city';
         $faker      = Faker::create();
 
-        $countries = factory(\App\Location::class, 10)->create(['type' => $COUNTRY]);
+        $countries = factory(\App\Location::class, 10 )->create( [ 'type' => $COUNTRY ] );
 
         foreach ( $countries as $country ) {
-            $cities = factory(\App\Location::class, rand(20, 40))->create([
+            $cities = factory(\App\Location::class, rand( 20, 40 ) )->create([
                 'type'      => $CITY,
                 'parent_id' => $country->id
             ]);
 
             foreach ( $cities as $city ) {
-                $city_name = $faker->city;
-                $city_short_name = substr($city_name, 0, 3);
-
-                $city->name         = $city_name;
-                $city->short_name   = $city_short_name;
+                $city_name      = $faker->city;
+                $city_code      = strtoupper( substr( $city_name, 0, 3 ) );
+                $city->name     = $city_name;
+                $city->code     = $city_code;
                 $city->save();
             }
         }
