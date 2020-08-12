@@ -10,7 +10,9 @@ class HotelSearch extends Searchable
         'CreatedAt',
         'UpdatedAt',
         'OrderBy',
-        'Search'
+        'Search',
+        'WhereAnd',
+        'HasRel'
     ];
 
     public static function returnModelInstance()

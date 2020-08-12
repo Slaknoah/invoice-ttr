@@ -17,4 +17,8 @@ class Location extends Model
     {
         return $this->belongsTo('App\Location', 'parent_id');
     }
+
+    public function hotel() {
+        return $this->hasMany('App\Hotel');
+    }
 }

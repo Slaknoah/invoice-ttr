@@ -103,11 +103,46 @@
                 resourceMetas: 'getLocationsMeta',
                 storedFilters: 'getLocationsFilter'
             }),
+            hideCountryFilter() {
+                return this.filters.type === 'country';
+            },
             locationFilters() {
-                return []
+                return [
+                    {
+                        type: 'select',
+                        name: 'type',
+                        label: this.$t('general.type'),
+                        options: [
+                            {
+                                value: "city",
+                                text: this.$t( 'general.city' )
+                            },
+                            {
+                                value: "country",
+                                text: this.$t( 'general.country' )
+                            }
+                        ],
+                        value: this.filters.type
+                    },
+                    {
+                        type: 'select',
+                        name: 'parent_id',
+                        label: this.$t('general.country'),
+                        options: this.$store.getters.getCountries.map( country => {
+                            return {
+                                value: parseInt( country.id ),
+                                text: this.$capitalizeText( country.name )
+                            }
+                        }),
+                        value: this.filters.parent_id,
+                        hide: this.hideCountryFilter
+                    }
+                ]
             }
         },
-        mounted() {
+        created() {
+            const countries = this.$store.getters.getCountries;
+            if( !countries.length ) this.$store.dispatch('fetchCountries').catch( error => console.log(error) );
         },
         components: {
             ListLayout,

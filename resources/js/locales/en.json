@@ -23,7 +23,10 @@
         "code": "Code",
         "type": "Type",
         "latitude": "Latitude",
-        "longitude": "Longitude"
+        "longitude": "Longitude",
+        "default": "Default",
+        "country": "Country",
+        "city": "City"
     },
     "nav": {
         "dashboard": "Dashboard",

@@ -43,10 +43,14 @@ class LocationController extends Controller
             'name'  => 'required|string',
             'code'  => 'nullable|string',
             'type'  => 'nullable|string',
-            'parent_id' => 'nullable|integer',
+            'parent_id' => 'required_if:type,city|integer',
             'latitude'  => 'nullable|numeric',
             'longitude' => 'nullable|numeric'
         ]);
+
+        $parent_id = $request->get('parent_id' ) ?: 0;
+        if ( $request->get('type') == 'country' )
+            $parent_id = 0;
 
         $location = new Location([
             'name' => $request->get('name'),
@@ -78,16 +82,20 @@ class LocationController extends Controller
             'name'  => 'required|string',
             'code'  => 'nullable|string',
             'type'  => 'nullable|string',
-            'parent_id' => 'nullable|integer',
+            'parent_id' => 'required_if:type,city|integer',
             'latitude'  => 'nullable|numeric',
             'longitude' => 'nullable|numeric'
         ]);
+
+        $parent_id = $request->get('parent_id' ) ?: 0;
+        if ( $request->get('type') == 'country' )
+            $parent_id = 0;
 
         $location = Location::find($id);
         $location->name = $request->get('name');
         $location->code = $request->get('code');
         $location->type = $request->get('type') ?: 'country';
-        $location->parent_id = $request->get('parent_id') ?: 0;
+        $location->parent_id = $parent_id;
         $location->latitude = $request->get('latitude');
         $location->longitude = $request->get('longitude');
         $location->save();

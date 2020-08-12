@@ -98,15 +98,61 @@ export default {
             ];
         }
     },
+    watch: {
+        filters(filtersAfter, filtersBefore) {
+            if ( filtersAfter.country_id !== filtersBefore.country_id ) {
+                this.$store.dispatch( 'getCountryCities', filtersAfter.country_id )
+                    .then( cities => cities.map( city => {
+                        return {
+                            value: parseInt( city.id ),
+                            text: this.$capitalizeText( city.name )
+                        }
+                    }));
+            }
+        }
+    },
     computed: {
         ...mapGetters({
             storedResources: 'getHotels',
             resourceMetas: 'getHotelsMeta',
             storedFilters: 'getHotelsFilter'
         }),
+        hideCitiesFilter() {
+            if ( !this.filters.country_id ) return true;
+        },
         hotelFilters() {
-            return []
+            return [
+                {
+                    type: 'select',
+                    name: 'country_id',
+                    label: this.$t('general.country'),
+                    options: this.$store.getters.getCountries.map( country => {
+                        return {
+                            value: parseInt( country.id ),
+                            text: this.$capitalizeText( country.name )
+                        }
+                    }),
+                    value: this.filters.country_id
+                },
+                {
+                    type: 'select',
+                    name: 'city_id',
+                    label: this.$t('general.city'),
+                    options: this.$store.getters.getCountryCities.map( city => {
+                        return {
+                            value: parseInt( city.id ),
+                            text: this.$capitalizeText( city.name )
+                        }
+                    }),
+                    value: this.filters.city_id,
+                    hide: this.hideCitiesFilter
+                }
+            ]
         }
+    },
+    created() {
+        const countries = this.$store.getters.getCountries;
+        if( !countries.length ) this.$store.dispatch( 'fetchCountries' ).catch( error => console.log( error ) );
     },
     components: { 
         HotelForm,

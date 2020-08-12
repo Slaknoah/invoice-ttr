@@ -22,6 +22,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
         JsonResource::withoutWrapping();
 
+        // Searches model fields or relationships for a value with LIKE relationship
         Builder::macro( 'whereLike', function ($attributes, string $searchTerm ) {
             $this->where( function ( Builder $query ) use ( $attributes, $searchTerm ) {
                 foreach ( Arr::wrap( $attributes ) as $attribute ) {
@@ -40,6 +41,34 @@ class AppServiceProvider extends ServiceProvider
                     );
                 }
             });
+
+            return $this;
+        });
+
+        // Queries models fields with OR relationship
+        Builder::macro( 'whereOr', function ($attributes) {
+            $this->where(function (Builder $query) use ($attributes) {
+                foreach (Arr::wrap($attributes) as $attribute) {
+                    if ( is_array( $attribute[ 'value' ] ) )
+                        $query->orWhereIn( $attribute[ 'field' ], $attribute[ 'value' ] );
+                    else
+                        $query->orWhere( $attribute[ 'field' ], $attribute[ 'value' ] );
+                }
+            });
+
+            return $this;
+        });
+
+        // Queries models fields with OR relationship
+        Builder::macro( 'whereAnd', function ($attributes) {
+            foreach (Arr::wrap($attributes) as $attribute) {
+                $this->where(function (Builder $query) use ($attribute) {
+                        if ( is_array( $attribute[ 'value' ] ) )
+                            $query->orWhereIn( $attribute[ 'field' ], $attribute[ 'value' ] );
+                        else
+                            $query->orWhere( $attribute[ 'field' ], $attribute[ 'value' ] );
+                });
+            }
 
             return $this;
         });

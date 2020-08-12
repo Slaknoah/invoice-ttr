@@ -189,10 +189,10 @@ export default {
     },
     computed: {
         rolesOptions() {
-            return this.$store.getters.getRoles.map(role => {
+            return this.$store.getters.getRoles.map( role => {
                 return {
-                    value: parseInt(role.id),
-                    text: this.$capitalizeText(role.name)
+                    value: parseInt( role.id ),
+                    text: this.$capitalizeText( role.name )
                 }
             });
         },

@@ -32,21 +32,44 @@
                             </template>
                         </BaseInput>
 
+                        <BaseSelect parentClass="col s12"
+                                    :options="typeOptions"
+                                    :label="$t( 'general.type' )"
+                                    :notSelectedLabel="$t('general.default')"
+                                    v-model="type">
+                            <template v-slot:af-input>
+                                <BaseValidationError v-if="hasValidationError" :errors="validationErrors.type"/>
+                            </template>
+                        </BaseSelect>
+
+                        <BaseSelect parentClass="col s12"
+                                    :options="parentOptions"
+                                    :label="$t( 'general.country' )"
+                                    :notSelectedLabel="$t('general.default')"
+                                    v-model="parent_id"
+                                    v-if="type === 'city'">
+                            <template v-slot:af-input>
+                                <BaseValidationError v-if="hasValidationError" :errors="validationErrors.type"/>
+                            </template>
+                        </BaseSelect>
+
                         <BaseInput
-                                v-model="latitude"
-                                :label="$t( 'general.latitude' )"
-                                parentClass="col s12"
-                                type="number">
+                                v-model= "latitude"
+                                :label= "$t( 'general.latitude' )"
+                                parentClass= "col s12"
+                                type= "number"
+                                step= "any">
                             <template v-slot:af-input>
                                 <BaseValidationError v-if="hasValidationError" :errors="validationErrors.latitude"/>
                             </template>
                         </BaseInput>
 
                         <BaseInput
-                                v-model="longitude"
-                                :label="$t( 'general.longitude' )"
-                                parentClass="col s12"
-                                type="number">
+                                v-model= "longitude"
+                                :label= "$t( 'general.longitude' )"
+                                parentClass= "col s12"
+                                type= "number"
+                                step= "any">
                             <template v-slot:af-input>
                                 <BaseValidationError v-if="hasValidationError" :errors="validationErrors.longitude"/>
                             </template>
@@ -75,14 +98,28 @@
             return {
                 name: "",
                 code: "",
+                type: "",
+                parent_id: "",
                 latitude: "",
                 longitude: "",
+                typeOptions: [
+                    {
+                        value: "city",
+                        text: this.$t( 'general.city' )
+                    },
+                    {
+                        value: "country",
+                        text: this.$t( 'general.country' )
+                    }
+                ]
             }
         },
         methods: {
             setFormData() {
                 this.name       = this.model.name;
                 this.code       = this.model.code;
+                this.type       = this.model.type;
+                this.parent_id  = this.model.parent_id;
                 this.latitude   = this.model.latitude;
                 this.longitude  = this.model.longitude;
             },
@@ -90,6 +127,8 @@
                 const params = {
                     name: this.name,
                     code: this.code,
+                    type: this.type,
+                    parent_id: this.parent_id,
                     latitude: this.latitude,
                     longitude: this.longitude
                 };
@@ -117,6 +156,16 @@
                             this.showError( error.response );
                         });
                 }
+            }
+        },
+        computed: {
+            parentOptions() {
+                return this.$store.getters.getCountries.map( country => {
+                    return {
+                        value: parseInt( country.id ),
+                        text: this.$capitalizeText( country.name )
+                    }
+                });
             }
         },
         mixins: [ formMixin ]

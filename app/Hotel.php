@@ -13,11 +13,19 @@ class Hotel extends Model
     protected $guarded = [];
 
     public function hotelReservations() {
-        return $this->hasMany('App/HotelReservation', 'hotel_id');
+        return $this->hasMany('App\HotelReservation', 'hotel_id');
     }
 
     public function tourists() {
-        return $this->hasMany('App/Tourist');
+        return $this->hasMany('App\Tourist');
+    }
+
+    public function city() {
+        return $this->belongsTo('App\Location', 'city_id')->where('type','city');
+    }
+
+    public function country() {
+        return $this->belongsTo('App\Location', 'country_id')->where('type', 'country');
     }
 
     public function setAccommodationsAttribute($value)

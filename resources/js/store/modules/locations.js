@@ -2,6 +2,8 @@ import axios from "../../bootstrap/axios";
 
 const state = {
     locations: [],
+    countries: [],
+    countryCities: [],
     locationsLinks: {},
     locationsFilter: {},
     locationsMeta: {},
@@ -10,6 +12,12 @@ const state = {
 const mutations = {
     SET_LOCATIONS(state, payload) {
         state.locations = payload;
+    },
+    SET_COUNTRIES(state, payload) {
+        state.countries = payload;
+    },
+    SET_COUNTRY_CITIES(state, payload) {
+        state.countryCities = payload;
     },
     SET_LOCATIONS_LINKS(state, payload) {
         state.locationsLinks = payload;
@@ -40,24 +48,55 @@ const mutations = {
     },
 };
 
+const locationFetch = function( filter ) {
+    let queryString = "/locations?";
+    if (parseInt(filter.page)) queryString += `&page=${filter.page}`;
+    if (filter.type) queryString += `&where_and[0][field]=type&where_and[0][value]=${ filter.type }`;
+    if (parseInt(filter.parent_id)) queryString += `&where_and[1][field]=parent_id&where_and[1][value]=${ filter.parent_id }`;
+    return new Promise((resolve, reject) =>  {
+        axios
+            .get(queryString)
+            .then(res => {
+                resolve(res.data);
+            })
+            .catch(error => reject(error));
+    });
+};
+
 const actions = {
     fetchLocations( { commit }, filter ) {
-        let queryString = "/locations?";
-        if (parseInt(filter.page)) queryString += `&page=${filter.page}`;
         return new Promise((resolve, reject) =>  {
-            axios
-                .get(queryString)
-                .then(res => {
-                    console.log(res);
-                    commit('SET_LOCATIONS', res.data.data);
-                    commit('SET_LOCATIONS_LINKS', res.data.links);
-                    commit('SET_LOCATIONS_META', res.data.meta);
-                    commit("SET_LOCATIONS_FILTER", filter);
-
-                    resolve(res.data.data);
-                })
-                .catch(error => reject(error));
+            locationFetch( filter ).then( data => {
+                commit('SET_LOCATIONS', data.data);
+                commit('SET_LOCATIONS_LINKS', data.links);
+                commit('SET_LOCATIONS_META', data.meta);
+                commit("SET_LOCATIONS_FILTER", filter);
+                resolve(data.data);
+            }).catch( error => {
+                reject( error )
+            });
         });
+    },
+    fetchCountries( { commit } ) {
+        return new Promise( ( resolve, reject ) => {
+            locationFetch( {
+                type: 'country'
+            }).then( data => {
+                commit('SET_COUNTRIES', data.data);
+                resolve( data.data );
+            }).catch( error => reject( error ) )
+        } )
+    },
+    getCountryCities( { commit }, country_id ) {
+        return new Promise( ( resolve, reject ) => {
+            locationFetch( {
+                type: 'city',
+                parent_id: country_id
+            }).then( data => {
+                commit('SET_COUNTRY_CITIES', data.data);
+                resolve( data.data );
+            }).catch( error => reject( error ) )
+        } )
     },
     addLocation( { commit }, parameters ) {
         return new Promise(( resolve, reject ) => {
@@ -97,6 +136,12 @@ const actions = {
 const getters = {
     getLocations( state ) {
         return state.locations;
+    },
+    getCountries( state ) {
+        return state.countries;
+    },
+    getCountryCities( state ) {
+        return state.countryCities;
     },
     getLocationsLinks( state ) {
         return state.locationsLinks;

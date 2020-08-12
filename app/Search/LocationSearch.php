@@ -10,6 +10,7 @@ class LocationSearch extends Searchable
         'CreatedAt',
         'UpdatedAt',
         'OrderBy',
+        'WhereAnd',
         'Search',
         'HasRel'
     ];

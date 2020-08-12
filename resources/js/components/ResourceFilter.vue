@@ -3,7 +3,7 @@
         <div class="row">
             <template v-for="filter in filters">
                 <base-select
-                        v-if="filter.type === 'select'"
+                        v-if="filter.type === 'select' && !filter.hide"
                         parentClass= "col s12 m6 l3"
                         :options= "filter.options"
                         :label= "filter.label"

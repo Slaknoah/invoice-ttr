@@ -63,9 +63,9 @@ export default {
             });
         },
         value() {
-          this.$nextTick(() => {
-            // $('.base-select').formSelect();
-          });
+            this.$nextTick(() => {
+                $('.base-select').formSelect();
+            });
         }
     },
     mounted() {

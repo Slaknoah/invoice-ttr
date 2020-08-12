@@ -19,6 +19,8 @@ class CreateHotelsTable extends Migration
             $table->string('address')->nullable();
             $table->string('telephone')->nullable();
             $table->string('telephone_two')->nullable();
+            $table->integer('city_id')->nullable();
+            $table->integer('country_id')->nullable();
             $table->json('accommodations')->nullable();
             $table->timestamps();
         });

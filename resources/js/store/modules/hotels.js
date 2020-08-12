@@ -43,8 +43,17 @@ const mutations = {
 const actions = {
     fetchHotels({ commit }, filter) {
         let queryString = "/hotels?";
-        if (parseInt(filter.page)) queryString += `&page=${filter.page}`;
-        if (filter.search) queryString += `&search[field][0]=name&search[query]=${filter.search}`;
+
+        if ( parseInt( filter.page ) ) queryString += `&page=${filter.page}`;
+
+        if ( filter.search ) queryString += `&search[field][0]=name&search[query]=${ filter.search }`;
+
+        if ( parseInt( filter.country_id ) )
+            queryString += `&where_and[1][field]=country_id&where_and[1][value]=${ filter.country_id }`;
+
+        if ( parseInt( filter.city_id ) )
+            queryString += `&where_and[1][field]=city_id&where_and[1][value]=${ filter.city_id }`;
+
         return new Promise((resolve, reject) =>  {
             axios
                 .get(queryString)
